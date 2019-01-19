@@ -5,7 +5,7 @@
 ```bash
 git clone https://github.com/eazymac25/cs7641-Project-1.git
 
-cd myrepo
+cd cs7641-Project-1
 
 conda create --name myenv python=3.7 # creates full env
 
