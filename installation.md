@@ -3,7 +3,7 @@
 # Installation
 
 ```bash
-git clone https://myrepo.com
+git clone https://github.com/eazymac25/cs7641-Project-1.git
 
 cd myrepo
 
