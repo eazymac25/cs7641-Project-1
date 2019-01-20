@@ -31,9 +31,11 @@ class CensusDecisionTree(object):
         self.raw_df = raw_df
 
     def download_archive_and_save_as_csv(self):
-        print(os.listdir("./"))
+        # TODO: Move this to a top level package and download
+
         if self.csv_filename in os.listdir("./"):
             raise Exception("File already exists")
+
         with open(self.csv_filename, "w") as raw_census_data:
             raw_census_data.write(','.join(self.raw_data_columns) + '\n')
             raw_census_data.writelines(
@@ -46,7 +48,7 @@ class CensusDecisionTree(object):
         :return: void
         """
 
-        self.raw_df = pd.read_csv("census_data.csv")
+        self.raw_df = pd.read_csv(self.csv_filename)
 
 
 if __name__ == '__main__':
