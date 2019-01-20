@@ -12,6 +12,9 @@ import graphviz
 
 from sklearn.tree import DecisionTreeClassifier
 
+RUN_PATH = os.path.dirname(os.getcwd())
+DATA_PATH = os.path.join(RUN_PATH, "data")
+
 
 class CensusDecisionTree(object):
     raw_data_columns = [
@@ -23,32 +26,19 @@ class CensusDecisionTree(object):
         'native-country', 'flag'
     ]
 
-    raw_data_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
-
     csv_filename = "raw_census_data.csv"
 
-    def __init__(self, raw_df=None):
-        self.raw_df = raw_df
+    def __init__(self, df=None):
+        self.df = self._get_initial_df() if df is None else df
 
-    def download_archive_and_save_as_csv(self):
-        # TODO: Move this to a top level package and download
-
-        if self.csv_filename in os.listdir("./"):
-            raise Exception("File already exists")
-
-        with open(self.csv_filename, "w") as raw_census_data:
-            raw_census_data.write(','.join(self.raw_data_columns) + '\n')
-            raw_census_data.writelines(
-                requests.get(self.raw_data_url).text
-            )
-
-    def setup(self):
+    def _get_initial_df(self):
         """
-        Fetches the data from archives and loads to a data frame
-        :return: void
+        Loads the data from data directory into a data frame
+        :return: pandas.DataFrame
         """
-
-        self.raw_df = pd.read_csv(self.csv_filename)
+        return pd.read_csv(
+            os.path.join(DATA_PATH, self.csv_filename)
+        )
 
 
 if __name__ == '__main__':

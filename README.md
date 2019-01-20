@@ -5,3 +5,8 @@ Project 1
 
 - US Census Data
 - Wine Acidity
+
+### Classifiers
+- Decision Tree with pruning
+- SVM
+- Neural Network
