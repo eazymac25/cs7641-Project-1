@@ -87,8 +87,22 @@ graph = graphviz.Source(dots, format='png')
 graph.render(r'census_output/census_decision_tree')
 
 y_pred = best_model.predict(x_test)
-print(cross_val_score(best_model, x_test, y_test, cv=kfold, scoring='accuracy'))
-print(confusion_matrix(y_test, y_pred))
-print(classification_report(y_test, y_pred))
+with open('census_output/decision_tree_summary.txt', 'w') as output:
+    output.write('################ GRAPH SEARCH SUMMARY ################\n')
+
+    output.write('BEST SCORE: ' + str(grid_search.best_score_))
+    output.write('\n')
+    output.write('BEST PARAMS: ' + str(grid_search.best_params_))
+
+    output.write('\n############### PREDICTION SUMMARY ####################\n')
+    output.write('CROSS VALIDATION:\n')
+    output.write(str(cross_val_score(best_model, x_test, y_test, cv=kfold, scoring='accuracy')))
+    output.write('\n')
+    output.write('CONFUSION MATRIX:\n')
+    output.write(str(confusion_matrix(y_test, y_pred)))
+    output.write('\n')
+    output.write('CLASSIFICATION REPORT:\n')
+    output.write(str(classification_report(y_test, y_pred)))
+    output.write('\n')
 
 

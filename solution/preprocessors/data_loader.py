@@ -51,7 +51,7 @@ class CensusDataLoader(object):
             self.pipeline = [
                 self.trim_strings,
                 self.drop_missing_values,
-                self.update_marital_status,
+                # self.update_marital_status,
                 self.create_category_num_columns,
                 self.bucket_age_column,
             ]
