@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import requests
 
-RUN_PATH = os.path.dirname(__file__)
+RUN_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_PATH = os.path.join(RUN_PATH, "data")
 
 CENSUS_CSV_FILE_NAME = "raw_census_data.csv"
