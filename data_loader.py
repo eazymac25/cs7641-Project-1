@@ -1,9 +1,10 @@
-
 import os
 
+import pandas as pd
 import requests
 
-DATA_DIRECTORY = "./data"
+RUN_PATH = os.path.dirname(__file__)
+DATA_PATH = os.path.join(RUN_PATH, "data")
 
 CENSUS_CSV_FILE_NAME = "raw_census_data.csv"
 CENSUS_DATA_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
@@ -18,11 +19,84 @@ CENSUS_DATA_COLUMNS = [
 
 
 def download_census_data_and_save_as_csv():
-    if CENSUS_CSV_FILE_NAME in os.listdir(DATA_DIRECTORY):
+    if CENSUS_CSV_FILE_NAME in os.listdir(DATA_PATH):
         raise Exception("File already exists")
 
-    with open(os.path.join(DATA_DIRECTORY, CENSUS_CSV_FILE_NAME), "w") as raw_census_data:
+    with open(os.path.join(DATA_PATH, CENSUS_CSV_FILE_NAME), "w") as raw_census_data:
         raw_census_data.write(','.join(CENSUS_DATA_COLUMNS) + '\n')
         raw_census_data.writelines(
             requests.get(CENSUS_DATA_URL).text
         )
+
+
+class CensusDataLoader(object):
+
+    def __init__(self, df):
+        """
+        NOTE: self.pipeline shouldn't need to change
+        since we are not building an API to run this pipeline
+        Parameters:
+            df (pandas.DataFrame): data frame that will be operated on
+        Returns: void
+        """
+        self.df = df
+        self.pipeline = [
+            self.trim_strings,
+            self.drop_missing_values,
+            self.create_category_num_columns,
+        ]
+
+    def apply_pipeline(self):
+        for fxn in self.pipeline:
+            fxn()
+        return self
+
+    def trim_strings(self):
+        """
+        Trim each element if it is a string
+        operates against this data frame
+        Returns:
+            self (CensusDataLoader)
+        """
+        self.df = self.df.applymap(
+            lambda item: item.strip() if isinstance(item, str) else item)
+        return self
+
+    def drop_missing_values(self):
+        """
+        Drop missing values which are denoted by '?' in the data set.
+        Returns:
+            self (CensusDataLoader)
+        """
+        self.df = self.df[self.df['workclass'] != '?']
+        self.df = self.df[self.df['occupation'] != '?']
+        self.df = self.df[self.df['native-country'] != '?']
+        return self
+
+    def create_category_num_columns(self):
+        """
+        Transform categorical (class) data into a numerical representation.
+        Returns:
+            self (CensusDataLoader)
+        """
+        category_maps = {
+            'workclass': {key: idx for idx, key in enumerate(set(self.df['workclass']))},
+            'marital-status': {key: idx for idx, key in enumerate(set(self.df['marital-status']))},
+            'occupation': {key: idx for idx, key in enumerate(set(self.df['occupation']))},
+            'relationship': {key: idx for idx, key in enumerate(set(self.df['relationship']))},
+            'race': {key: idx for idx, key in enumerate(set(self.df['race']))},
+            'sex': {key: idx for idx, key in enumerate(set(self.df['sex']))},
+            'native-country': {key: idx for idx, key in enumerate(set(self.df['native-country']))},
+            'flag': {'<=50K': 0, '>50K': 1}
+        }
+
+        for col, category_map in category_maps.items():
+            self.df[col + '_num'] = self.df[col].map(category_map)
+        return self
+
+
+if __name__ == '__main__':
+    dl = CensusDataLoader(pd.read_csv(os.path.join(DATA_PATH, CENSUS_CSV_FILE_NAME)))
+    dl.apply_pipeline()
+
+    print(dl.df.head())
