@@ -52,7 +52,9 @@ class CensusDataLoader(object):
 
     def apply_pipeline(self):
         """
-        Moves through the list of pipeline functions and applies
+        Moves through the list of pipeline functions and applies.
+        This  assumes idempotent changes. Calling this multiple times
+        will result in wasteful ops, but does not change the df.
         Returns:
             self (CensusDataLoader)
         """

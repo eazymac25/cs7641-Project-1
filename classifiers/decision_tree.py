@@ -10,6 +10,7 @@ import pandas as pd
 import requests
 import graphviz
 
+from sklearn.model_selection import KFold, train_test_split
 from sklearn.tree import DecisionTreeClassifier
 
 RUN_PATH = os.path.dirname(os.getcwd())
