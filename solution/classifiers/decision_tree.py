@@ -49,14 +49,13 @@ class CensusDecisionTree(object):
 if __name__ == '__main__':
 
     dt = CensusDecisionTree()
-    # dt.download_archive_and_save_as_csv()
     adf = dt.df
 
     preprocessor = CensusDataLoader(adf)
     preprocessor.apply_pipeline()
     adf = preprocessor.df
 
-    feature_cols = ['age', 'workclass_num', 'education-num'] #'marital-status_num', 'occupation_num']
+    feature_cols = ['age_num', 'education-num', 'marital-status_num', 'hours-per-week', 'capital-gain']
 
     x_train, x_test, y_train, y_test = train_test_split(
         adf[feature_cols],
@@ -82,7 +81,7 @@ if __name__ == '__main__':
     print(gd_sr.best_score_)
     print(gd_sr.best_params_)
 
-    tree_cls = DecisionTreeClassifier(random_state=0, criterion='entropy', max_depth=5, max_leaf_nodes=8)
+    tree_cls = DecisionTreeClassifier(random_state=0, criterion='entropy', max_depth=6)
 
     tree_cls.fit(x_train, y_train)
 

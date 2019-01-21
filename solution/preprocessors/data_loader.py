@@ -1,4 +1,5 @@
 import os
+import json
 
 import pandas as pd
 import requests
@@ -31,7 +32,7 @@ def download_census_data_and_save_as_csv():
 
 class CensusDataLoader(object):
 
-    def __init__(self, df):
+    def __init__(self, df, pipeline=[]):
         """
         NOTE: self.pipeline shouldn't need to change
         since we are not building an API to run this pipeline.
@@ -44,12 +45,16 @@ class CensusDataLoader(object):
         Returns: void
         """
         self.df = df
-        self.pipeline = [
-            self.trim_strings,
-            self.drop_missing_values,
-            self.create_category_num_columns,
-            self.bucket_age_column,
-        ]
+        if pipeline:
+            self.pipeline = pipeline
+        else:
+            self.pipeline = [
+                self.trim_strings,
+                self.drop_missing_values,
+                self.update_marital_status,
+                self.create_category_num_columns,
+                self.bucket_age_column,
+            ]
 
     def apply_pipeline(self):
         """
@@ -62,6 +67,19 @@ class CensusDataLoader(object):
         for fxn in self.pipeline:
             self.df = fxn(self.df)
         return self
+
+    @property
+    def df(self):
+        return self.__df
+
+    @df.setter
+    def df(self, value):
+        """
+        Consider adding checks for the columns here
+        to ensure the df has not mutated outside of the
+        initial or intended schema.
+        """
+        self.__df = value
 
     @staticmethod
     def trim_strings(df):
@@ -93,6 +111,18 @@ class CensusDataLoader(object):
         return df
 
     @staticmethod
+    def update_marital_status(df):
+        df['marital-status'] = df['marital-status'].replace(
+            ['Never-married', 'Divorced', 'Separated', 'Widowed'],
+            'Single'
+        )
+        df['marital-status'] = df['marital-status'].replace(
+            ['Married-civ-spouse', 'Married-spouse-absent', 'Married-AF-spouse'],
+            'Married'
+        )
+        return df
+
+    @staticmethod
     def create_category_num_columns(df):
         """
         Transform categorical (class) data into a numerical representation.
@@ -112,6 +142,9 @@ class CensusDataLoader(object):
             'native-country': {key: idx for idx, key in enumerate(set(df['native-country']))},
             'income': {'<=50K': 0, '>50K': 1}
         }
+
+        with open('category_maps.json', 'w') as output_category_maps:
+            output_category_maps.write(json.dumps(category_maps, indent=4))
 
         for col, category_map in category_maps.items():
             df[col + '_num'] = df[col].map(category_map)
