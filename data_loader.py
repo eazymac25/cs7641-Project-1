@@ -34,7 +34,11 @@ class CensusDataLoader(object):
     def __init__(self, df):
         """
         NOTE: self.pipeline shouldn't need to change
-        since we are not building an API to run this pipeline
+        since we are not building an API to run this pipeline.
+        However, if the pipeline needs to change,
+        a user can update the attribute with more functions
+        that take a data frame as input and return a data frame
+        as output.
         Parameters:
             df (pandas.DataFrame): data frame that will be operated on
         Returns: void
@@ -47,52 +51,68 @@ class CensusDataLoader(object):
         ]
 
     def apply_pipeline(self):
+        """
+        Moves through the list of pipeline functions and applies
+        Returns:
+            self (CensusDataLoader)
+        """
         for fxn in self.pipeline:
-            fxn()
+            self.df = fxn(self.df)
         return self
 
-    def trim_strings(self):
+    @staticmethod
+    def trim_strings(df):
         """
         Trim each element if it is a string
         operates against this data frame
+        Parameters:
+            df (pandas.DataFrame): input data frame. Assumes the data frame
+            is of the form of the data frame this CensusDataLoader was initialized.
         Returns:
-            self (CensusDataLoader)
+            df (pandas.DataFrame)
         """
-        self.df = self.df.applymap(
+        return df.applymap(
             lambda item: item.strip() if isinstance(item, str) else item)
-        return self
 
-    def drop_missing_values(self):
+    @staticmethod
+    def drop_missing_values(df):
         """
         Drop missing values which are denoted by '?' in the data set.
+        Parameters:
+            df (pandas.DataFrame): input data frame. Assumes the data frame
+            is of the form of the data frame this CensusDataLoader was initialized.
         Returns:
-            self (CensusDataLoader)
+            df (pandas.DataFrame)
         """
-        self.df = self.df[self.df['workclass'] != '?']
-        self.df = self.df[self.df['occupation'] != '?']
-        self.df = self.df[self.df['native-country'] != '?']
-        return self
+        df = df[df['workclass'] != '?']
+        df = df[df['occupation'] != '?']
+        df = df[df['native-country'] != '?']
+        return df
 
-    def create_category_num_columns(self):
+    @staticmethod
+    def create_category_num_columns(df):
         """
         Transform categorical (class) data into a numerical representation.
+        Parameters:
+            df (pandas.DataFrame): input data frame. Assumes the data frame
+            is of the form of the data frame this CensusDataLoader was initialized.
         Returns:
-            self (CensusDataLoader)
+            df (pandas.DataFrame)
         """
         category_maps = {
-            'workclass': {key: idx for idx, key in enumerate(set(self.df['workclass']))},
-            'marital-status': {key: idx for idx, key in enumerate(set(self.df['marital-status']))},
-            'occupation': {key: idx for idx, key in enumerate(set(self.df['occupation']))},
-            'relationship': {key: idx for idx, key in enumerate(set(self.df['relationship']))},
-            'race': {key: idx for idx, key in enumerate(set(self.df['race']))},
-            'sex': {key: idx for idx, key in enumerate(set(self.df['sex']))},
-            'native-country': {key: idx for idx, key in enumerate(set(self.df['native-country']))},
+            'workclass': {key: idx for idx, key in enumerate(set(df['workclass']))},
+            'marital-status': {key: idx for idx, key in enumerate(set(df['marital-status']))},
+            'occupation': {key: idx for idx, key in enumerate(set(df['occupation']))},
+            'relationship': {key: idx for idx, key in enumerate(set(df['relationship']))},
+            'race': {key: idx for idx, key in enumerate(set(df['race']))},
+            'sex': {key: idx for idx, key in enumerate(set(df['sex']))},
+            'native-country': {key: idx for idx, key in enumerate(set(df['native-country']))},
             'flag': {'<=50K': 0, '>50K': 1}
         }
 
         for col, category_map in category_maps.items():
-            self.df[col + '_num'] = self.df[col].map(category_map)
-        return self
+            df[col + '_num'] = df[col].map(category_map)
+        return df
 
 
 if __name__ == '__main__':
