@@ -7,12 +7,15 @@ import sys
 # a way to get around relative imports outside of this package
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
 
+import numpy as np
 import pandas as pd
 import graphviz
 from sklearn.model_selection import KFold, train_test_split, cross_val_score
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import learning_curve
+import matplotlib.pyplot as plt
 
 from solution.preprocessors.data_loader import CensusDataLoader
 
@@ -54,6 +57,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 kfold = KFold(n_splits=5)
 tree_cls = DecisionTreeClassifier()
 
+# Find the best model via GridSearchCV
 grid_search = GridSearchCV(
     estimator=tree_cls,
     param_grid={
@@ -71,9 +75,8 @@ grid_search.fit(x_train, y_train)
 
 print(grid_search.best_score_)
 print(grid_search.best_params_)
-print(grid_search.cv_results_['mean_test_score'])
-print(len(grid_search.cv_results_['mean_test_score']))
 
+# train the best model
 best_model = grid_search.best_estimator_
 best_model.fit(x_train, y_train)
 
@@ -86,7 +89,10 @@ dots = export_graphviz(
 graph = graphviz.Source(dots, format='png')
 graph.render(r'census_output/census_decision_tree')
 
+# Predict income with the trained best model
 y_pred = best_model.predict(x_test)
+
+# Send the output to a file.
 with open('census_output/decision_tree_summary.txt', 'w') as output:
     output.write('################ GRAPH SEARCH SUMMARY ################\n')
 
@@ -105,4 +111,21 @@ with open('census_output/decision_tree_summary.txt', 'w') as output:
     output.write(str(classification_report(y_test, y_pred)))
     output.write('\n')
 
+# Graph the learning curve for the selected model
+train_sizes, train_scores, valid_scores = learning_curve(
+    DecisionTreeClassifier(**grid_search.best_params_), df[feature_cols], df['income_num'],
+    train_sizes=np.linspace(0.1, 1.0),
+    cv=5)
+
+plt.figure()
+plt.title("Learning Curve")
+
+plt.xlabel("# Training Samples")
+plt.ylabel("Accuracy")
+
+plt.plot(train_sizes, np.mean(train_scores, axis=1), color="r", label="Training Set")
+plt.plot(train_sizes, np.mean(valid_scores, axis=1), color="g", label="Cross Validation Set")
+plt.legend(loc='best')
+
+plt.savefig('census_output/learning_curve.png')
 

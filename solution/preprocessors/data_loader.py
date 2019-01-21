@@ -132,18 +132,23 @@ class CensusDataLoader(object):
         Returns:
             df (pandas.DataFrame)
         """
-        category_maps = {
-            'workclass': {key: idx for idx, key in enumerate(set(df['workclass']))},
-            'marital-status': {key: idx for idx, key in enumerate(set(df['marital-status']))},
-            'occupation': {key: idx for idx, key in enumerate(set(df['occupation']))},
-            'relationship': {key: idx for idx, key in enumerate(set(df['relationship']))},
-            'race': {key: idx for idx, key in enumerate(set(df['race']))},
-            'sex': {key: idx for idx, key in enumerate(set(df['sex']))},
-            'native-country': {key: idx for idx, key in enumerate(set(df['native-country']))},
-            'income': {'<=50K': 0, '>50K': 1}
-        }
+        category_maps = {}
+        try:
+            with open(os.path.join(RUN_PATH, 'preprocessors/census_category_maps.json'), 'r') as input_categories:
+                category_maps = json.loads(input_categories.read())
+        except Exception:
+            category_maps = {
+                'workclass': {key: idx for idx, key in enumerate(set(df['workclass']))},
+                'marital-status': {key: idx for idx, key in enumerate(set(df['marital-status']))},
+                'occupation': {key: idx for idx, key in enumerate(set(df['occupation']))},
+                'relationship': {key: idx for idx, key in enumerate(set(df['relationship']))},
+                'race': {key: idx for idx, key in enumerate(set(df['race']))},
+                'sex': {key: idx for idx, key in enumerate(set(df['sex']))},
+                'native-country': {key: idx for idx, key in enumerate(set(df['native-country']))},
+                'income': {'<=50K': 0, '>50K': 1}
+            }
 
-        with open(os.path.join(RUN_PATH, 'preprocessors/category_maps.json'), 'w') as output_category_maps:
+        with open(os.path.join(RUN_PATH, 'preprocessors/census_category_maps.json'), 'w') as output_category_maps:
             output_category_maps.write(json.dumps(category_maps, indent=4))
 
         for col, category_map in category_maps.items():
