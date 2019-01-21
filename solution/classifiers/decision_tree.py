@@ -10,8 +10,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath
 
 import numpy as np
 import pandas as pd
+import graphviz
 from sklearn.model_selection import KFold, train_test_split, cross_val_score
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import GridSearchCV
 
 from solution.preprocessors.data_loader import CensusDataLoader
@@ -55,7 +56,7 @@ if __name__ == '__main__':
     preprocessor.apply_pipeline()
     adf = preprocessor.df
 
-    feature_cols = ['workclass_num', 'education-num', 'marital-status_num', 'occupation_num']
+    feature_cols = ['age', 'workclass_num', 'education-num'] #'marital-status_num', 'occupation_num']
 
     x_train, x_test, y_train, y_test = train_test_split(
         adf[feature_cols],
@@ -69,6 +70,7 @@ if __name__ == '__main__':
     gd_sr = GridSearchCV(
         estimator=tree_cls,
         param_grid={
+            'random_state': [0],
             'criterion': ['gini', 'entropy'],
             'max_depth': range(3, 10)
         },
@@ -78,4 +80,14 @@ if __name__ == '__main__':
     gd_sr.fit(x_train, y_train)
 
     print(gd_sr.best_score_)
+    print(gd_sr.best_params_)
+
+    tree_cls = DecisionTreeClassifier(random_state=0, criterion='entropy', max_depth=5, max_leaf_nodes=8)
+
+    tree_cls.fit(x_train, y_train)
+
+    dots = export_graphviz(tree_cls, out_file=None, feature_names=feature_cols, class_names=['less', 'more'], filled=True)
+    graph = graphviz.Source(dots, format='png')
+    graph.render('census_decision_tree')
+
 
