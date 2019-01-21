@@ -1,0 +1,97 @@
+{
+    "workclass": {
+        "Private": 0,
+        "Self-emp-inc": 1,
+        "State-gov": 2,
+        "Self-emp-not-inc": 3,
+        "Without-pay": 4,
+        "Local-gov": 5,
+        "Federal-gov": 6
+    },
+    "marital-status": {
+        "Married": 0,
+        "Single": 1
+    },
+    "occupation": {
+        "Priv-house-serv": 0,
+        "Craft-repair": 1,
+        "Armed-Forces": 2,
+        "Other-service": 3,
+        "Machine-op-inspct": 4,
+        "Prof-specialty": 5,
+        "Transport-moving": 6,
+        "Farming-fishing": 7,
+        "Tech-support": 8,
+        "Exec-managerial": 9,
+        "Sales": 10,
+        "Protective-serv": 11,
+        "Adm-clerical": 12,
+        "Handlers-cleaners": 13
+    },
+    "relationship": {
+        "Unmarried": 0,
+        "Not-in-family": 1,
+        "Own-child": 2,
+        "Wife": 3,
+        "Husband": 4,
+        "Other-relative": 5
+    },
+    "race": {
+        "Other": 0,
+        "Black": 1,
+        "Asian-Pac-Islander": 2,
+        "White": 3,
+        "Amer-Indian-Eskimo": 4
+    },
+    "sex": {
+        "Male": 0,
+        "Female": 1
+    },
+    "native-country": {
+        "Holand-Netherlands": 0,
+        "Laos": 1,
+        "Cuba": 2,
+        "China": 3,
+        "Trinadad&Tobago": 4,
+        "Thailand": 5,
+        "Philippines": 6,
+        "Ireland": 7,
+        "Portugal": 8,
+        "Greece": 9,
+        "Columbia": 10,
+        "Japan": 11,
+        "Hong": 12,
+        "Vietnam": 13,
+        "Jamaica": 14,
+        "India": 15,
+        "Peru": 16,
+        "Guatemala": 17,
+        "Yugoslavia": 18,
+        "El-Salvador": 19,
+        "Honduras": 20,
+        "Canada": 21,
+        "Ecuador": 22,
+        "South": 23,
+        "Italy": 24,
+        "Scotland": 25,
+        "Cambodia": 26,
+        "Mexico": 27,
+        "Germany": 28,
+        "Dominican-Republic": 29,
+        "United-States": 30,
+        "France": 31,
+        "Poland": 32,
+        "Iran": 33,
+        "Nicaragua": 34,
+        "England": 35,
+        "Outlying-US(Guam-USVI-etc)": 36,
+        "Haiti": 37,
+        "Taiwan": 38,
+        "Hungary": 39,
+        "Puerto-Rico": 40
+    },
+    "income": {
+        "<=50K": 0,
+        ">50K": 1
+    }
+}

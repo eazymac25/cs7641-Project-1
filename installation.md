@@ -3,6 +3,9 @@
 # Installation
 
 ```bash
+# make sure to install graphviz
+sudo apt-get install graphviz
+
 git clone https://github.com/eazymac25/cs7641-Project-1.git
 
 cd cs7641-Project-1

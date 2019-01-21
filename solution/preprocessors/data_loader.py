@@ -1,5 +1,6 @@
 import os
 import json
+from pathlib import Path
 
 import pandas as pd
 import requests
@@ -62,11 +63,11 @@ class CensusDataLoader(object):
         This  assumes idempotent changes. Calling this multiple times
         will result in wasteful ops, but does not change the df.
         Returns:
-            self (CensusDataLoader)
+            self (pandas.DataFrame)
         """
         for fxn in self.pipeline:
             self.df = fxn(self.df)
-        return self
+        return self.df
 
     @property
     def df(self):
@@ -143,7 +144,7 @@ class CensusDataLoader(object):
             'income': {'<=50K': 0, '>50K': 1}
         }
 
-        with open('category_maps.json', 'w') as output_category_maps:
+        with open(os.path.join(RUN_PATH, 'preprocessors/category_maps.json'), 'w') as output_category_maps:
             output_category_maps.write(json.dumps(category_maps, indent=4))
 
         for col, category_map in category_maps.items():
