@@ -10,6 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath
 import pandas as pd
 import graphviz
 from sklearn.model_selection import KFold, train_test_split, cross_val_score
+from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import GridSearchCV
 
@@ -59,8 +60,9 @@ grid_search = GridSearchCV(
         'random_state': [0],
         'criterion': ['entropy'],
         'max_depth': range(3, 16),
-        'min_samples_leaf': range(100, 1000, 100),
-        'min_impurity_decrease': [0.009, 0.1]
+        'max_leaf_nodes': range(5, 17),
+        # 'min_samples_leaf': range(100, 1000, 100),
+        # 'min_impurity_decrease': [0.009, 0.1]
     },
     cv=kfold
 )
@@ -84,6 +86,9 @@ dots = export_graphviz(
 graph = graphviz.Source(dots, format='png')
 graph.render(r'census_output/census_decision_tree')
 
+y_pred = best_model.predict(x_test)
 print(cross_val_score(best_model, x_test, y_test, cv=kfold, scoring='accuracy'))
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
 
 
