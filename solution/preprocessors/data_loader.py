@@ -14,7 +14,7 @@ CENSUS_DATA_COLUMNS = [
     'marital-status', 'occupation', 'relationship',
     'race', 'sex', 'capital-gain',
     'capital-loss', 'hours-per-week',
-    'native-country', 'flag'
+    'native-country', 'income'
 ]
 
 
@@ -48,6 +48,7 @@ class CensusDataLoader(object):
             self.trim_strings,
             self.drop_missing_values,
             self.create_category_num_columns,
+            self.bucket_age_column,
         ]
 
     def apply_pipeline(self):
@@ -109,15 +110,46 @@ class CensusDataLoader(object):
             'race': {key: idx for idx, key in enumerate(set(df['race']))},
             'sex': {key: idx for idx, key in enumerate(set(df['sex']))},
             'native-country': {key: idx for idx, key in enumerate(set(df['native-country']))},
-            'flag': {'<=50K': 0, '>50K': 1}
+            'income': {'<=50K': 0, '>50K': 1}
         }
 
         for col, category_map in category_maps.items():
             df[col + '_num'] = df[col].map(category_map)
         return df
 
+    @staticmethod
+    def bucket_age_column(df):
+        """
+        Buckets the age based on the CensusDataLoader._bucket_age_column_helper function.
+        Parameters:
+            df (pandas.DataFrame): input data frame
+        Returns:
+            df (pandas.DataFrame): updated data frame
+        """
+        df['age_num'] = df['age'].apply(
+            lambda age: CensusDataLoader._bucket_age_column_helper(age)
+        )
+        return df
+
+    @staticmethod
+    def _bucket_age_column_helper(row_age):
+        age_buckets = {
+            0: lambda age: age < 20,
+            1: lambda age: 20 <= age < 30,
+            2: lambda age: 30 <= age < 40,
+            3: lambda age: 40 <= age < 50,
+            4: lambda age: 50 <= age < 60,
+            5: lambda age: age >= 60
+        }
+        for age_num, evaluator in age_buckets.items():
+            if evaluator(row_age):
+                return age_num
+        raise Exception("No age mapped")
+
 
 if __name__ == '__main__':
+    # print(DATA_PATH)
+    # download_census_data_and_save_as_csv()
     dl = CensusDataLoader(pd.read_csv(os.path.join(DATA_PATH, CENSUS_CSV_FILE_NAME)))
     dl.apply_pipeline()
 

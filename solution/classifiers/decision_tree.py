@@ -28,7 +28,7 @@ class CensusDecisionTree(object):
         'marital-status', 'occupation', 'relationship',
         'race', 'sex', 'capital-gain',
         'capital-loss', 'hours-per-week',
-        'native-country', 'flag'
+        'native-country', 'income'
     ]
 
     csv_filename = "raw_census_data.csv"
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     x_train, x_test, y_train, y_test = train_test_split(
         adf[feature_cols],
-        adf['flag_num'],
+        adf['income_num'],
         random_state=0,
         test_size=0.25
     )
