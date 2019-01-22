@@ -15,7 +15,15 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import learning_curve
-import matplotlib.pyplot as plt
+
+# https://github.com/MTG/sms-tools/issues/36
+from sys import platform as sys_pf
+if sys_pf == 'darwin':
+    import matplotlib
+    matplotlib.use("TkAgg")
+    import matplotlib.pyplot as plt
+else:
+    import matplotlib.pyplot as plt
 
 from solution.preprocessors.data_loader import CensusDataLoader
 
@@ -80,14 +88,17 @@ print(grid_search.best_params_)
 best_model = grid_search.best_estimator_
 best_model.fit(x_train, y_train)
 
-dots = export_graphviz(
-    best_model,
-    out_file=None,
-    feature_names=feature_cols,
-    class_names=['at most 50K', 'more than 50K'],
-    filled=True)
-graph = graphviz.Source(dots, format='png')
-graph.render(r'census_output/census_decision_tree')
+try:
+    dots = export_graphviz(
+        best_model,
+        out_file=None,
+        feature_names=feature_cols,
+        class_names=['at most 50K', 'more than 50K'],
+        filled=True)
+    graph = graphviz.Source(dots, format='png')
+    graph.render(r'census_output/census_decision_tree')
+except Exception:
+    pass
 
 # Predict income with the trained best model
 y_pred = best_model.predict(x_test)
@@ -128,4 +139,24 @@ plt.plot(train_sizes, np.mean(valid_scores, axis=1), color="g", label="Cross Val
 plt.legend(loc='best')
 
 plt.savefig('census_output/learning_curve.png')
+
+# Plot the mean test score over max_depth
+grid_search = GridSearchCV(
+    estimator=tree_cls,
+    param_grid={
+        'random_state': [0],
+        'criterion': ['entropy'],
+        'max_depth': range(3, 16),
+        # 'max_leaf_nodes': range(5, 17),
+        # 'min_samples_leaf': range(100, 1000, 100),
+        # 'min_impurity_decrease': [0.009, 0.1]
+    },
+    cv=kfold
+)
+
+grid_search.fit(x_train, y_train)
+
+plt.figure()
+plt.plot(list(range(3, 16)), grid_search.cv_results_['mean_test_score'])
+plt.show()
 
