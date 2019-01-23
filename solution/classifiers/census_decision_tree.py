@@ -97,7 +97,9 @@ try:
         filled=True)
     graph = graphviz.Source(dots, format='png')
     graph.render(r'census_output/census_decision_tree')
-except Exception:
+except Exception as e:
+    print("Exception using graphviz with error: %s" % e)
+    print("Did you install graphviz (sudo apt-get install graphviz)?")
     pass
 
 # Predict income with the trained best model
@@ -129,9 +131,9 @@ train_sizes, train_scores, valid_scores = learning_curve(
     cv=5)
 
 plt.figure()
-plt.title("Learning Curve")
+plt.title("Learning Curve - Training Set Size")
 
-plt.xlabel("# Training Samples")
+plt.xlabel("Number of Training Samples")
 plt.ylabel("Accuracy")
 
 plt.plot(train_sizes, np.mean(train_scores, axis=1), color="r", label="Training Set")
@@ -151,12 +153,14 @@ grid_search = GridSearchCV(
         # 'min_samples_leaf': range(100, 1000, 100),
         # 'min_impurity_decrease': [0.009, 0.1]
     },
-    cv=kfold
+    cv=5
 )
 
 grid_search.fit(x_train, y_train)
 
 plt.figure()
+plt.title("Learning Curve - Depth")
+plt.xlabel("Depth")
+plt.ylabel("Accuracy")
 plt.plot(list(range(3, 16)), grid_search.cv_results_['mean_test_score'])
-plt.show()
-
+plt.savefig("census_output/depth_learning_curve.png")
