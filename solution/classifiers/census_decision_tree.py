@@ -52,6 +52,7 @@ derived_feature_columns = [
 df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
 
+# These are subject to change based on preprocessing
 feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'hours-per-week', 'capital-gain',
                 'capital-loss', 'sex_Male', 'from_united_states']
@@ -63,6 +64,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     test_size=0.35
 )
 
+# TODO: Evaluate if KFold is needed. I think most algos default cv to kfold.
 kfold = KFold(n_splits=5)
 tree_cls = DecisionTreeClassifier()
 
@@ -89,6 +91,7 @@ print(grid_search.best_params_)
 best_model = grid_search.best_estimator_
 best_model.fit(x_train, y_train)
 
+# Export decision tree to graphviz png
 try:
     dots = export_graphviz(
         best_model,
@@ -106,7 +109,7 @@ except Exception as e:
 # Predict income with the trained best model
 y_pred = best_model.predict(x_test)
 
-# Send the output to a file.
+# Send the output of cross validation to a file.
 with open('census_output/decision_tree_summary.txt', 'w') as output:
     output.write('################ GRAPH SEARCH SUMMARY ################\n')
 
@@ -125,7 +128,7 @@ with open('census_output/decision_tree_summary.txt', 'w') as output:
     output.write(str(classification_report(y_test, y_pred)))
     output.write('\n')
 
-# Graph the learning curve for the selected model
+# Graph the learning curve for number of samples vs accuracy for the best model
 train_sizes, train_scores, valid_scores = learning_curve(
     DecisionTreeClassifier(**grid_search.best_params_), df[feature_cols], df['income_num'],
     train_sizes=np.linspace(0.1, 1.0),
@@ -143,7 +146,7 @@ plt.legend(loc='best')
 
 plt.savefig('census_output/num_samples_learning_curve.png')
 
-# Plot the mean test score over max_depth
+# Plot the learning curve for max depth vs mean test score
 grid_search = GridSearchCV(
     estimator=tree_cls,
     param_grid={
