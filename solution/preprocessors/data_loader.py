@@ -247,6 +247,7 @@ class CensusDataLoader(object):
 class WineDataLoader(object):
     """
     A bespoke data pipeline operating on a pandas.DataFrame via a list of operations.
+    Data found at https://www.kaggle.com/uciml/red-wine-quality-cortez-et-al-2009/version/2
     """
 
     def __init__(self):
