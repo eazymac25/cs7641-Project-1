@@ -1,19 +1,19 @@
 ################ GRAPH SEARCH SUMMARY ################
-BEST SCORE: 0.8471774015295522
-BEST PARAMS: {'criterion': 'entropy', 'max_depth': 7, 'max_leaf_nodes': 15, 'random_state': 0}
+BEST SCORE: 0.8478449375159398
+BEST PARAMS: {'criterion': 'entropy', 'max_depth': 5, 'max_leaf_nodes': 16, 'random_state': 0}
 ############### PREDICTION SUMMARY ####################
 CROSS VALIDATION:
-[0.83035123 0.8494695  0.82493369 0.8561008  0.82758621]
+[0.84422348 0.83854167 0.84557082 0.82993842 0.84272856]
 CONFUSION MATRIX:
-[[5306  333]
- [ 879 1023]]
+[[7470  451]
+ [1210 1426]]
 CLASSIFICATION REPORT:
               precision    recall  f1-score   support
 
-           0       0.86      0.94      0.90      5639
-           1       0.75      0.54      0.63      1902
+           0       0.86      0.94      0.90      7921
+           1       0.76      0.54      0.63      2636
 
-   micro avg       0.84      0.84      0.84      7541
-   macro avg       0.81      0.74      0.76      7541
-weighted avg       0.83      0.84      0.83      7541
+   micro avg       0.84      0.84      0.84     10557
+   macro avg       0.81      0.74      0.77     10557
+weighted avg       0.84      0.84      0.83     10557
 

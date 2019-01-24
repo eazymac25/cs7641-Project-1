@@ -51,9 +51,12 @@ class CensusDataLoader(object):
             self.pipeline = [
                 self.trim_strings,
                 self.drop_missing_values,
-                # self.update_marital_status,
-                self.create_category_num_columns,
+                self.update_marital_status,
+                # self.create_category_num_columns,
+                self.add_from_united_states_column,
+                self.create_dummy_columns,
                 self.bucket_age_column,
+                self.add_income_num_column,
             ]
 
     def apply_pipeline(self):
@@ -66,6 +69,11 @@ class CensusDataLoader(object):
         """
         for fxn in self.pipeline:
             self.df = fxn(self.df)
+        try:
+            with open(os.path.join(RUN_PATH, 'preprocessors/full_column_list.txt'), 'w') as column_list:
+                column_list.write('\n'.join(self.df.columns))
+        except Exception as e:
+            print('Exception writing census columns to file during preprocessing with error %s' % e)
         return self.df
 
     @property
@@ -123,6 +131,11 @@ class CensusDataLoader(object):
         return df
 
     @staticmethod
+    def add_from_united_states_column(df):
+        df['from_united_states'] = df['native-country'].apply(lambda country: 1 if country == 'United-States' else 0)
+        return df
+
+    @staticmethod
     def create_category_num_columns(df):
         """
         Transform categorical (class) data into a numerical representation.
@@ -153,6 +166,22 @@ class CensusDataLoader(object):
 
         for col, category_map in category_maps.items():
             df[col + '_num'] = df[col].map(category_map)
+        return df
+
+    @staticmethod
+    def create_dummy_columns(df):
+        df = df.join(pd.get_dummies(df[['workclass']], prefix='workclass', drop_first=True))
+        df = df.join(pd.get_dummies(df['marital-status'], prefix='marital-status', drop_first=True))
+        df = df.join(pd.get_dummies(df['occupation'], prefix='occupation', drop_first=True))
+        df = df.join(pd.get_dummies(df['relationship'], prefix='relationship', drop_first=True))
+        df = df.join(pd.get_dummies(df['race'], prefix='race', drop_first=True))
+        df = df.join(pd.get_dummies(df['sex'], prefix='sex', drop_first=True))
+        # df = df.join(pd.get_dummies(df['native-country'], prefix='native-country', drop_first=True))
+        return df
+
+    @staticmethod
+    def add_income_num_column(df):
+        df['income_num'] = df['income'].map({'<=50K': 0, '>50K': 1})
         return df
 
     @staticmethod

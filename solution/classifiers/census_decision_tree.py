@@ -16,6 +16,7 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import learning_curve
 
+# We have to do some import magic for this to work on a Mac
 # https://github.com/MTG/sms-tools/issues/36
 from sys import platform as sys_pf
 if sys_pf == 'darwin':
@@ -51,15 +52,15 @@ derived_feature_columns = [
 df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
 
-feature_cols = ['age_num', 'education-num', 'marital-status_num',
-                'occupation_num', 'hours-per-week', 'capital-gain',
-                'capital-loss', 'sex_num', 'race_num']
+feature_cols = ['age_num', 'education-num', 'marital-status_Single',
+                'hours-per-week', 'capital-gain',
+                'capital-loss', 'sex_Male', 'from_united_states']
 
 x_train, x_test, y_train, y_test = train_test_split(
     df[feature_cols],
     df['income_num'],
     random_state=0,
-    test_size=0.25
+    test_size=0.35
 )
 
 kfold = KFold(n_splits=5)
@@ -140,7 +141,7 @@ plt.plot(train_sizes, np.mean(train_scores, axis=1), color="r", label="Training 
 plt.plot(train_sizes, np.mean(valid_scores, axis=1), color="g", label="Cross Validation Set")
 plt.legend(loc='best')
 
-plt.savefig('census_output/learning_curve.png')
+plt.savefig('census_output/num_samples_learning_curve.png')
 
 # Plot the mean test score over max_depth
 grid_search = GridSearchCV(
