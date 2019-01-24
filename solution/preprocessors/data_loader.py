@@ -94,7 +94,7 @@ class CensusDataLoader(object):
         """
         Trim each element if it is a string
         operates against this data frame
-        Parameters:
+        Args:
             df (pandas.DataFrame): input data frame. Assumes the data frame
             is of the form of the data frame this CensusDataLoader was initialized.
         Returns:
@@ -107,7 +107,7 @@ class CensusDataLoader(object):
     def drop_missing_values(df):
         """
         Drop missing values which are denoted by '?' in the data set.
-        Parameters:
+        Args:
             df (pandas.DataFrame): input data frame. Assumes the data frame
             is of the form of the data frame this CensusDataLoader was initialized.
         Returns:
@@ -120,6 +120,13 @@ class CensusDataLoader(object):
 
     @staticmethod
     def update_marital_status(df):
+        """
+        Reduce the marital-status column to either single or married for simplicity
+        Args:
+            df (pandas.DataFrame)
+        Returns:
+            df (pandas.DataFrame)
+        """
         df['marital-status'] = df['marital-status'].replace(
             ['Never-married', 'Divorced', 'Separated', 'Widowed'],
             'Single'
@@ -132,6 +139,13 @@ class CensusDataLoader(object):
 
     @staticmethod
     def add_from_united_states_column(df):
+        """
+        Reduce native-country to from United States or not
+        Args:
+            df (pandas.DataFrame)
+        Returns:
+            df (pandas.DataFrame)
+        """
         df['from_united_states'] = df['native-country'].apply(lambda country: 1 if country == 'United-States' else 0)
         return df
 
@@ -139,7 +153,7 @@ class CensusDataLoader(object):
     def create_category_num_columns(df):
         """
         Transform categorical (class) data into a numerical representation.
-        Parameters:
+        Args:
             df (pandas.DataFrame): input data frame. Assumes the data frame
             is of the form of the data frame this CensusDataLoader was initialized.
         Returns:
@@ -170,6 +184,13 @@ class CensusDataLoader(object):
 
     @staticmethod
     def create_dummy_columns(df):
+        """
+        Create dummy columns for categorical variables with many values that do not have an order
+        Args:
+            df (pandas.DataFrame)
+        Returns:
+            df (pandas.DataFrame)
+        """
         df = df.join(pd.get_dummies(df[['workclass']], prefix='workclass', drop_first=True))
         df = df.join(pd.get_dummies(df['marital-status'], prefix='marital-status', drop_first=True))
         df = df.join(pd.get_dummies(df['occupation'], prefix='occupation', drop_first=True))
@@ -188,7 +209,7 @@ class CensusDataLoader(object):
     def bucket_age_column(df):
         """
         Buckets the age based on the CensusDataLoader._bucket_age_column_helper function.
-        Parameters:
+        Args:
             df (pandas.DataFrame): input data frame
         Returns:
             df (pandas.DataFrame): updated data frame
