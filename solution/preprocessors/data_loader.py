@@ -31,8 +31,14 @@ def download_census_data_and_save_as_csv():
 
 
 class CensusDataLoader(object):
+    """
+    CensusDataLoader: a bespoke data pipeline for the Census data found at:
+    https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data
+    """
 
     def __init__(self, df, pipeline=[]):
+        # TODO: consider making pipeline immutable
+        # TODO: consider writing finished data frame to file as csv for ease of replication.
         """
         NOTE: self.pipeline shouldn't need to change
         since we are not building an API to run this pipeline.
@@ -42,6 +48,9 @@ class CensusDataLoader(object):
         as output.
         Parameters:
             df (pandas.DataFrame): data frame that will be operated on
+            pipeline (list): list containing functions that take in a pandas.DataFrame
+            and return an updated pandas.DataFrame. The updated df is used to update the
+            self.df.
         Returns: void
         """
         self.df = df
@@ -233,6 +242,15 @@ class CensusDataLoader(object):
             if evaluator(row_age):
                 return age_num
         raise Exception("No age mapped")
+
+
+class WineDataLoader(object):
+    """
+    A bespoke data pipeline operating on a pandas.DataFrame via a list of operations.
+    """
+
+    def __init__(self):
+        pass
 
 
 if __name__ == '__main__':
