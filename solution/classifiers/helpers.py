@@ -25,14 +25,15 @@ else:
     import matplotlib.pyplot as plt
 
 
-def produce_model_performance_summary(grid_search, best_model, x_test, y_test, y_pred,
-                                      output_location, cv=5, scoring='accuracy'):
+def produce_model_performance_summary(best_model, x_test, y_test, y_pred,
+                                      output_location, grid_search=None, cv=5, scoring='accuracy'):
     with open(output_location, 'w') as output:
-        output.write('################ GRAPH SEARCH SUMMARY ################\n')
+        if grid_search:
+            output.write('################ GRAPH SEARCH SUMMARY ################\n')
 
-        output.write('BEST SCORE: ' + str(grid_search.best_score_))
-        output.write('\n')
-        output.write('BEST PARAMS: ' + str(grid_search.best_params_))
+            output.write('BEST SCORE: ' + str(grid_search.best_score_))
+            output.write('\n')
+            output.write('BEST PARAMS: ' + str(grid_search.best_params_))
 
         output.write('\n############### PREDICTION SUMMARY ####################\n')
         output.write('CROSS VALIDATION:\n')
@@ -47,12 +48,13 @@ def produce_model_performance_summary(grid_search, best_model, x_test, y_test, y
 
 
 def plot_learning_curve_vs_train_size(classifier, dataframe, feature_cols, target_col, output_location,
-                                      training_label='Training Set', validation_label='Cross Validation Set'):
+                                      training_label='Training Set', validation_label='Cross Validation Set',
+                                      lin_space=np.linspace(0.1, 1.0, num=10)):
     train_sizes, train_scores, validation_scores = learning_curve(
         classifier,
         dataframe[feature_cols],
         dataframe[target_col],
-        train_sizes=np.linspace(0.1, 1.0, num=10),
+        train_sizes=lin_space,
         cv=5
     )
 

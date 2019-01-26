@@ -7,6 +7,10 @@ We do the following steps:
     2. Plot learning curve for data set train size vs accuracy
     3. Split into training set and test set
     4. Plot learning curve vs max depth
+    5. Do grid search against all relevant params and find best model
+    6. Fit to best model
+    7. Predict from best model
+    8. Produce prediction summary
 """
 import os
 import sys
@@ -123,11 +127,11 @@ helpers.export_decision_tree_to_file(
 y_pred = best_model.predict(x_test)
 
 helpers.produce_model_performance_summary(
-    grid_search,
     best_model,
     x_test,
     y_test,
     y_pred,
+    grid_search=grid_search,
     output_location='census_output/decision_tree_summary.txt',
     cv=kfold,
     scoring='accuracy'

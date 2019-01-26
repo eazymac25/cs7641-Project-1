@@ -1,0 +1,17 @@
+
+############### PREDICTION SUMMARY ####################
+CROSS VALIDATION:
+[0.74289773 0.75426136 0.76077688 0.7356703  0.75793463]
+CONFUSION MATRIX:
+[[7343  578]
+ [1858  778]]
+CLASSIFICATION REPORT:
+              precision    recall  f1-score   support
+
+           0       0.80      0.93      0.86      7921
+           1       0.57      0.30      0.39      2636
+
+   micro avg       0.77      0.77      0.77     10557
+   macro avg       0.69      0.61      0.62     10557
+weighted avg       0.74      0.77      0.74     10557
+
