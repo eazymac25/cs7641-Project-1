@@ -2,8 +2,19 @@ import os
 import json
 
 import pandas as pd
-import matplotlib.pyplot as plt
 import requests
+
+# We have to do some import magic for this to work on a Mac
+# https://github.com/MTG/sms-tools/issues/36
+from sys import platform as sys_pf
+
+if sys_pf == 'darwin':
+    import matplotlib
+
+    matplotlib.use("TkAgg")
+    import matplotlib.pyplot as plt
+else:
+    import matplotlib.pyplot as plt
 
 plt.tight_layout()
 
@@ -43,7 +54,7 @@ def output_graphs(df, output_dir=r'', columns=[], gtype='hist'):
             values = df[column].value_counts()
         else:
             raise Exception('Unsupported gtyp')
-        values.plot(kind=gtype, title=column.upper(), x='Value', y='Count')
+        values.plot(kind=gtype, title=column.upper())
         if gtype == 'bar':
             plt.subplots_adjust(bottom=0.35)
         plt.savefig(os.path.join(output_dir, '%s_histogram.png' % column))
@@ -276,7 +287,8 @@ class WineDataLoader(object):
             self.pipeline = pipeline
         else:
             self.pipeline = [
-                self.dropna
+                self.dropna,
+                self.reclassify_quality_v2
             ]
 
     def apply_pipeline(self):
@@ -312,6 +324,18 @@ class WineDataLoader(object):
     @staticmethod
     def dropna(df):
         return df.dropna()
+
+    @staticmethod
+    def reclassify_quality(df):
+        bins = (2, 6.5, 8)
+        group_names = ['Low Quality', 'High Quality']
+        df['quality_num'] = pd.cut(df['quality'], bins=bins, labels=group_names)
+        return df
+
+    @staticmethod
+    def reclassify_quality_v2(df):
+        df['quality_num'] = df['quality'].map(lambda val: 0 if val < 6.5 else 1)
+        return df
 
 
 if __name__ == '__main__':

@@ -1,0 +1,19 @@
+################ GRAPH SEARCH SUMMARY ################
+BEST SCORE: 0.870992963252541
+BEST PARAMS: {'criterion': 'entropy', 'max_depth': 6, 'max_leaf_nodes': 16, 'random_state': 0}
+############### PREDICTION SUMMARY ####################
+CROSS VALIDATION:
+[0.859375 0.828125 0.796875 0.859375 0.890625]
+CONFUSION MATRIX:
+[[273  17]
+ [ 17  13]]
+CLASSIFICATION REPORT:
+              precision    recall  f1-score   support
+
+           0       0.94      0.94      0.94       290
+           1       0.43      0.43      0.43        30
+
+   micro avg       0.89      0.89      0.89       320
+   macro avg       0.69      0.69      0.69       320
+weighted avg       0.89      0.89      0.89       320
+
