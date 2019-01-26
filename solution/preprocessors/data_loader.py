@@ -2,7 +2,10 @@ import os
 import json
 
 import pandas as pd
+import matplotlib.pyplot as plt
 import requests
+
+plt.tight_layout()
 
 RUN_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_PATH = os.path.join(RUN_PATH, "data")
@@ -18,6 +21,8 @@ CENSUS_DATA_COLUMNS = [
     'native-country', 'income'
 ]
 
+WINE_CSV_FILE_NAME = "winequality-red.csv"
+
 
 def download_census_data_and_save_as_csv():
     if CENSUS_CSV_FILE_NAME in os.listdir(DATA_PATH):
@@ -28,6 +33,21 @@ def download_census_data_and_save_as_csv():
         raw_census_data.writelines(
             requests.get(CENSUS_DATA_URL).text
         )
+
+
+def output_graphs(df, output_dir=r'', columns=[], gtype='hist'):
+    for column in columns:
+        if gtype == 'hist':
+            values = df[column]
+        elif gtype == 'bar':
+            values = df[column].value_counts()
+        else:
+            raise Exception('Unsupported gtyp')
+        values.plot(kind=gtype, title=column.upper(), x='Value', y='Count')
+        if gtype == 'bar':
+            plt.subplots_adjust(bottom=0.35)
+        plt.savefig(os.path.join(output_dir, '%s_histogram.png' % column))
+        plt.close()
 
 
 class CensusDataLoader(object):
@@ -257,7 +277,31 @@ class WineDataLoader(object):
 if __name__ == '__main__':
     # print(DATA_PATH)
     # download_census_data_and_save_as_csv()
-    dl = CensusDataLoader(pd.read_csv(os.path.join(DATA_PATH, CENSUS_CSV_FILE_NAME)))
-    dl.apply_pipeline()
 
-    print(dl.df.head())
+    census_df = pd.read_csv(os.path.join(DATA_PATH, CENSUS_CSV_FILE_NAME))
+    output_graphs(
+        census_df,
+        output_dir=os.path.join(RUN_PATH, 'preprocessors/census_histograms'),
+        columns=['age', 'capital-gain', 'capital-loss', 'education-num', 'hours-per-week'],
+        gtype='hist'
+    )
+    output_graphs(
+        census_df,
+        output_dir=os.path.join(RUN_PATH, 'preprocessors/census_histograms'),
+        columns=['workclass', 'education', 'marital-status', 'occupation', 'relationship',
+                 'race', 'sex', 'native-country', 'income'],
+        gtype='bar'
+    )
+
+    wine_df = pd.read_csv(os.path.join(DATA_PATH, WINE_CSV_FILE_NAME))
+    output_graphs(
+        wine_df,
+        output_dir=os.path.join(RUN_PATH, 'preprocessors/wine_histograms'),
+        columns=wine_df.columns,
+        gtype='hist'
+
+    )
+    # dl = CensusDataLoader(census_df)
+    # dl.apply_pipeline()
+    #
+    # print(dl.df.head())

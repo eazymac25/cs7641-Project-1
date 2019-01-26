@@ -4,6 +4,7 @@ This serves as a simple script and can by run directly.
 """
 import os
 import sys
+
 # a way to get around relative imports outside of this package
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
 
@@ -19,8 +20,10 @@ from sklearn.model_selection import learning_curve
 # We have to do some import magic for this to work on a Mac
 # https://github.com/MTG/sms-tools/issues/36
 from sys import platform as sys_pf
+
 if sys_pf == 'darwin':
     import matplotlib
+
     matplotlib.use("TkAgg")
     import matplotlib.pyplot as plt
 else:
@@ -31,7 +34,6 @@ from solution.preprocessors.data_loader import CensusDataLoader
 RUN_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_PATH = os.path.join(RUN_PATH, "data")
 CSV_FILENAME = "raw_census_data.csv"
-
 
 raw_data_columns = [
     'age', 'workclass', 'fnwgt',
@@ -47,7 +49,6 @@ derived_feature_columns = [
     'occupation_num', 'relationship_num', 'race_num',
     'sex_num', 'native-country_num', 'income_num'
 ]
-
 
 df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
