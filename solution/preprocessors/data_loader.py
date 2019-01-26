@@ -99,7 +99,7 @@ class CensusDataLoader(object):
         for fxn in self.pipeline:
             self.df = fxn(self.df)
         try:
-            with open(os.path.join(RUN_PATH, 'preprocessors/full_column_list.txt'), 'w') as column_list:
+            with open(os.path.join(RUN_PATH, 'preprocessors/wine_full_column_list.txt'), 'w') as column_list:
                 column_list.write('\n'.join(self.df.columns))
         except Exception as e:
             print('Exception writing census columns to file during preprocessing with error %s' % e)
@@ -270,8 +270,48 @@ class WineDataLoader(object):
     Data found at https://www.kaggle.com/uciml/red-wine-quality-cortez-et-al-2009/version/2
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, df, pipeline=[]):
+        self.df = df
+        if pipeline:
+            self.pipeline = pipeline
+        else:
+            self.pipeline = [
+                self.dropna
+            ]
+
+    def apply_pipeline(self):
+        """
+        Moves through the list of pipeline functions and applies.
+        This  assumes idempotent changes. Calling this multiple times
+        will result in wasteful ops, but does not change the df.
+        Returns:
+            self (pandas.DataFrame)
+        """
+        for fxn in self.pipeline:
+            self.df = fxn(self.df)
+        try:
+            with open(os.path.join(RUN_PATH, 'preprocessors/wine_full_column_list.txt'), 'w') as column_list:
+                column_list.write('\n'.join(self.df.columns))
+        except Exception as e:
+            print('Exception writing census columns to file during preprocessing with error %s' % e)
+        return self.df
+
+    @property
+    def df(self):
+        return self.__df
+
+    @df.setter
+    def df(self, value):
+        """
+        Consider adding checks for the columns here
+        to ensure the df has not mutated outside of the
+        initial or intended schema.
+        """
+        self.__df = value
+
+    @staticmethod
+    def dropna(df):
+        return df.dropna()
 
 
 if __name__ == '__main__':
@@ -305,3 +345,7 @@ if __name__ == '__main__':
     # dl.apply_pipeline()
     #
     # print(dl.df.head())
+    print('Initial wine length', len(wine_df))
+    wdl = WineDataLoader(wine_df)
+    wdl.apply_pipeline()
+    print('Preprocess length', len(wdl.df))
