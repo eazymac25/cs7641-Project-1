@@ -51,6 +51,26 @@ x_train, x_test, y_train, y_test = train_test_split(
     test_size=0.35
 )
 
+# Plot the learning curve for max iter vs mean test score
+helpers.plot_learning_curve_vs_param(
+    MLPClassifier(
+        solver='sgd',
+        alpha=1e-6,
+        hidden_layer_sizes=(200,),
+        random_state=0,
+        activation='logistic'),
+    x_train,
+    y_train,
+    param_grid={
+        'max_iter': range(100, 1100, 100),
+    },
+    cv=3,
+    param_name='Max Iterations',
+    param_range=list(range(100, 1100, 100)),
+    measure_type='mean_test_score',
+    output_location='wine_output/nn_max_iter_learning_curve.png'
+)
+
 # Find the best model via GridSearchCV
 grid_search = GridSearchCV(
     estimator=MLPClassifier(solver='sgd', random_state=0, activation='logistic', max_iter=2000),
@@ -72,8 +92,8 @@ best_model = grid_search.best_estimator_
 start = timeit.default_timer()
 best_model.fit(x_train, y_train)
 end = timeit.default_timer()
-print('Time to fit:', end-start)
-helpers.log_fit_time('WINE_NN', end-start)
+print('Time to fit:', end - start)
+helpers.log_fit_time('WINE_NN', end - start)
 
 # Predict quality with the trained best model
 y_pred = best_model.predict(x_test)
@@ -84,6 +104,6 @@ helpers.produce_model_performance_summary(
     y_test,
     y_pred,
     output_location='wine_output/neural_net_summary.txt',
-    cv=kfold,
+    cv=3,
     scoring='accuracy'
 )

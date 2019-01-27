@@ -98,7 +98,8 @@ def plot_learning_curve_vs_train_size(classifier, dataframe, feature_cols, targe
 
 
 @timer
-def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, cv=5,
+def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, param_name='Depth',
+                                 param_range=list(range(3, 16)), cv=5,
                                  measure_type='mean_test_score', output_location=''):
     grid_search = GridSearchCV(
         estimator=classifier,
@@ -109,10 +110,10 @@ def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, cv
     grid_search.fit(x_train, y_train)
 
     plt.figure()
-    plt.title("Learning Curve - Depth")
-    plt.xlabel("Depth")
+    plt.title("Learning Curve - %s" % param_name)
+    plt.xlabel(param_name)
     plt.ylabel("Accuracy")
-    plt.plot(list(range(3, 16)), grid_search.cv_results_[measure_type])
+    plt.plot(param_range, grid_search.cv_results_[measure_type])
     plt.savefig(output_location)
 
 

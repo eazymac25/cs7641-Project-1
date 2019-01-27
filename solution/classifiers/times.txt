@@ -83,3 +83,24 @@ Originating Classifier: wine_neural_network.py
 WINE_NN FIT TIME: 0.38017262400000007
 Originating Classifier: wine_neural_network.py
 	Originating method: produce_model_performance_summary took 0.09801133500000248 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 19.64644598 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 22.442595112 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_param took 36.453294492999994 seconds
+WINE_NN FIT TIME: 0.3468516540000053
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 1.1279513970000004 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 1.1409354349999994 seconds
+WINE_NN FIT TIME: 0.010365157999999042
+Originating Classifier: census_decision_tree.py
+	Originating method: export_decision_tree_to_file took 0.21511344800000032 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 3.0228426020000008 seconds
+Originating Classifier: census_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 451.068780393 seconds
+Originating Classifier: census_neural_network.py
+	Originating method: plot_learning_curve_vs_param took 526.6110155700001 seconds
+WINE_NN FIT TIME: 13.29004040299992
