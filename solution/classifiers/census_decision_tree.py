@@ -83,9 +83,6 @@ helpers.plot_learning_curve_vs_param(
         'random_state': [0],
         'criterion': ['entropy'],
         'max_depth': range(3, 16),
-        # 'max_leaf_nodes': range(5, 17),
-        # 'min_samples_leaf': range(100, 1000, 100),
-        # 'min_impurity_decrease': [0.009, 0.1]
     },
     cv=5,
     measure_type='mean_test_score',
@@ -100,8 +97,6 @@ grid_search = GridSearchCV(
         'criterion': ['entropy'],
         'max_depth': range(3, 16),
         'max_leaf_nodes': range(5, 17),
-        # 'min_samples_leaf': range(100, 1000, 100),
-        # 'min_impurity_decrease': [0.009, 0.1]
     },
     cv=kfold
 )

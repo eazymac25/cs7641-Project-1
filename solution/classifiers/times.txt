@@ -46,3 +46,23 @@ Originating Classifier: census_decision_tree.py
 	Originating method: plot_learning_curve_vs_train_size took 3.003953495000001 seconds
 Originating Classifier: census_decision_tree.py
 	Originating method: produce_model_performance_summary took 0.049136938999996715 seconds
+Originating Classifier: census_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 351.740571517 seconds
+Originating Classifier: census_neural_network.py
+	Originating method: produce_model_performance_summary took 21.189029884999968 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 10.189068285 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: produce_model_performance_summary took 0.11370868999999928 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 10.372837652000001 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: produce_model_performance_summary took 0.16601889100000022 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 10.168998163 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: produce_model_performance_summary took 0.989051160999999 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 17.635501976 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: produce_model_performance_summary took 0.10174722900000077 seconds

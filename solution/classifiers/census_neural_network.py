@@ -26,13 +26,21 @@ df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
 
 # These are subject to change based on pre-processing
+# feature_cols = ['age_num', 'education-num', 'marital-status_Single',
+#                 'hours-per-week', 'capital-gain',
+#                 'capital-loss']
 feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'hours-per-week', 'capital-gain',
-                'capital-loss']
+                'capital-loss', 'sex_Male', 'from_united_states']
 
 kfold = KFold(n_splits=5)
-cls = MLPClassifier(solver='sgd', alpha=.001, hidden_layer_sizes=(20, 5), random_state=0, activation='logistic',
-                    max_iter=2000)
+cls = MLPClassifier(
+    solver='sgd',
+    alpha=.001,
+    hidden_layer_sizes=(100,),
+    random_state=0,
+    activation='logistic',
+    max_iter=2000)
 
 # Plot the learning curve vs train size.
 # Helps determine the train vs test split split ratio
@@ -44,8 +52,6 @@ helpers.plot_learning_curve_vs_train_size(
     output_location='census_output/neural_net_num_samples_learning_curve.png'
 )
 
-print('b')
-
 x_train, x_test, y_train, y_test = train_test_split(
     df[feature_cols],
     df['income_num'],
@@ -53,39 +59,20 @@ x_train, x_test, y_train, y_test = train_test_split(
     test_size=0.35
 )
 
-# Plot the learning curve for max depth vs mean test score
-# helpers.plot_learning_curve_vs_param(
-#     cls,
-#     x_train,
-#     y_train,
-#     param_grid={
-#         'random_state': [0],
-#         'solver': ['sgd'],
-#         'activation': ['logistic'],
-#         'hidden_layer_sizes': ''
-#     },
-#     cv=5,
-#     measure_type='mean_test_score',
-#     output_location='census_output/neural_net_depth_learning_curve.png'
-# )
-
 # Find the best model via GridSearchCV
 grid_search = GridSearchCV(
-    estimator=cls,
+    estimator=MLPClassifier(solver='sgd', random_state=0, activation='logistic', max_iter=1000),
     param_grid={
-        'solver': ['sgd'],
-        'alpha': [1e-5],
-        'hidden_layer_sizes': [(20, 5)],
-        'random_state': [0],
-        'activation': ['logistic']
+        'alpha': [1e-5, 1e-4, 1e-3],
+        'hidden_layer_sizes': [(100,), (20, 5)]
     },
-    cv=kfold
+    cv=5
 )
 
 grid_search.fit(x_train, y_train)
 
-# print(grid_search.best_score_)
-# print(grid_search.best_params_)
+print(grid_search.best_score_)
+print(grid_search.best_params_)
 
 # train the best model
 best_model = grid_search.best_estimator_
@@ -95,7 +82,7 @@ best_model.fit(x_train, y_train)
 y_pred = best_model.predict(x_test)
 
 helpers.produce_model_performance_summary(
-    cls,
+    best_model,
     x_test,
     y_test,
     y_pred,
