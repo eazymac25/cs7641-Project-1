@@ -19,6 +19,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
 
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
@@ -121,6 +122,16 @@ helpers.export_decision_tree_to_file(
     class_names=['at most 50K', 'more than 50K'],
     output_location=r'census_output/census_decision_tree',
     format='png'
+)
+
+# Plot the learning curve vs train size after finding the best model
+helpers.plot_learning_curve_vs_train_size(
+    best_model,
+    df,
+    feature_cols,
+    'income_num',
+    output_location='census_output/best_model_num_samples_learning_curve.png',
+    lin_space=np.linspace(0.1, 1.0, num=50)
 )
 
 # Predict income with the trained best model

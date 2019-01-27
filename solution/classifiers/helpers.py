@@ -1,5 +1,7 @@
 import os
 import sys
+import timeit
+import inspect
 
 # a way to get around relative imports outside of this package
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
@@ -8,7 +10,7 @@ import numpy as np
 import graphviz
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.tree import DecisionTreeClassifier, export_graphviz
+from sklearn.tree import export_graphviz
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import learning_curve
 
@@ -25,6 +27,25 @@ else:
     import matplotlib.pyplot as plt
 
 
+def timer(func):
+    def func_timer(*args, **kwargs):
+        start = timeit.default_timer()
+        parent_idx = 1
+        results = func(*args, **kwargs)
+        end = timeit.default_timer()
+        with open('times.txt', 'a') as time_results:
+            time_results.write('Originating Classifier: ' +
+                               str(os.path.basename(
+                                   os.path.realpath(inspect.getfile(inspect.stack()[parent_idx][0])))) + '\n')
+            time_results.write(
+                '\tOriginating method: ' + str(func.__name__) + ' took ' + str(end - start) + ' seconds\n')
+        print(func.__name__, 'Elapsed', end - start)
+        return results
+
+    return func_timer
+
+
+@timer
 def produce_model_performance_summary(best_model, x_test, y_test, y_pred,
                                       output_location, grid_search=None, cv=5, scoring='accuracy'):
     with open(output_location, 'w') as output:
@@ -47,6 +68,7 @@ def produce_model_performance_summary(best_model, x_test, y_test, y_pred,
         output.write('\n')
 
 
+@timer
 def plot_learning_curve_vs_train_size(classifier, dataframe, feature_cols, target_col, output_location,
                                       training_label='Training Set', validation_label='Cross Validation Set',
                                       lin_space=np.linspace(0.1, 1.0, num=10)):
@@ -71,6 +93,7 @@ def plot_learning_curve_vs_train_size(classifier, dataframe, feature_cols, targe
     plt.savefig(output_location)
 
 
+@timer
 def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, cv=5,
                                  measure_type='mean_test_score', output_location=''):
     grid_search = GridSearchCV(
@@ -86,9 +109,10 @@ def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, cv
     plt.xlabel("Depth")
     plt.ylabel("Accuracy")
     plt.plot(list(range(3, 16)), grid_search.cv_results_[measure_type])
-    plt.savefig("census_output/depth_learning_curve.png")
+    plt.savefig(output_location)
 
 
+@timer
 def export_decision_tree_to_file(model, feature_names=[], class_names=[], output_location=r'', format='png'):
     try:
         dots = export_graphviz(

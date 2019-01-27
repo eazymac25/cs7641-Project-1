@@ -3,14 +3,6 @@ Neural Net Classifier for two U.S Census Income Data
 This serves as a simple script and can by run directly.
 
 We do the following steps:
-    1. Pre-process the data set
-    2. Plot learning curve for data set train size vs accuracy
-    3. Split into training set and test set
-    4. Plot learning curve vs max depth
-    5. Do grid search against all relevant params and find best model
-    6. Fit to best model
-    7. Predict from best model
-    8. Produce prediction summary
 """
 import os
 import sys
@@ -39,7 +31,8 @@ feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'capital-loss']
 
 kfold = KFold(n_splits=5)
-cls = MLPClassifier(solver='sgd', alpha=.001, hidden_layer_sizes=(20, 5), random_state=0, activation='logistic', max_iter=2000)
+cls = MLPClassifier(solver='sgd', alpha=.001, hidden_layer_sizes=(20, 5), random_state=0, activation='logistic',
+                    max_iter=2000)
 
 # Plot the learning curve vs train size.
 # Helps determine the train vs test split split ratio
@@ -99,7 +92,7 @@ best_model = grid_search.best_estimator_
 best_model.fit(x_train, y_train)
 
 # Predict income with the trained best model
-y_pred = cls.predict(x_test)
+y_pred = best_model.predict(x_test)
 
 helpers.produce_model_performance_summary(
     cls,
