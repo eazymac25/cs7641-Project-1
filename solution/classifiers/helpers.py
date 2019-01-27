@@ -45,7 +45,11 @@ def timer(func):
     return func_timer
 
 
-@timer
+def log_fit_time(model_origin, total_time):
+    with open('times.txt', 'a') as time_results:
+        time_results.write(model_origin.upper() + ' FIT TIME: ' + str(total_time) + '\n')
+
+
 def produce_model_performance_summary(best_model, x_test, y_test, y_pred,
                                       output_location, grid_search=None, cv=5, scoring='accuracy'):
     with open(output_location, 'w') as output:

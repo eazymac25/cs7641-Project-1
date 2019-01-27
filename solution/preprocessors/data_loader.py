@@ -16,6 +16,8 @@ if sys_pf == 'darwin':
 else:
     import matplotlib.pyplot as plt
 
+import seaborn as sns
+
 plt.tight_layout()
 
 RUN_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -46,19 +48,28 @@ def download_census_data_and_save_as_csv():
         )
 
 
-def output_graphs(df, output_dir=r'', columns=[], gtype='hist'):
+def output_graphs(df, output_dir='', columns=[], gtype='hist'):
     for column in columns:
         if gtype == 'hist':
             values = df[column]
         elif gtype == 'bar':
             values = df[column].value_counts()
         else:
-            raise Exception('Unsupported gtyp')
+            raise Exception('Unsupported gtype')
         values.plot(kind=gtype, title=column.upper())
-        if gtype == 'bar':
-            plt.subplots_adjust(bottom=0.35)
-        plt.savefig(os.path.join(output_dir, '%s_histogram.png' % column))
+        plt.savefig(os.path.join(output_dir, '%s_histogram.png' % column), bbox_inches="tight")
         plt.close()
+
+
+def plot_heatmap(df, columns, output_dir='', file_name='', title=''):
+    sns.heatmap(
+        df[columns].corr(),
+        annot=True,
+        fmt='.2f',
+    )
+    plt.title(title)
+    plt.savefig(os.path.join(output_dir, file_name), bbox_inches="tight")
+    plt.close()
 
 
 class CensusDataLoader(object):
@@ -365,10 +376,21 @@ if __name__ == '__main__':
         gtype='hist'
 
     )
-    # dl = CensusDataLoader(census_df)
-    # dl.apply_pipeline()
-    #
-    # print(dl.df.head())
+
+    plot_heatmap(
+        CensusDataLoader(census_df).apply_pipeline(),
+        columns=['age', 'capital-gain', 'capital-loss', 'hours-per-week', 'income_num'],
+        output_dir=os.path.join(RUN_PATH, 'preprocessors/census_histograms'),
+        title='Census Heat Map',
+        file_name='census_heatmap.png')
+
+    plot_heatmap(
+        wine_df,
+        columns=wine_df.columns,
+        output_dir=os.path.join(RUN_PATH, 'preprocessors/wine_histograms'),
+        title='Wine Heat Map',
+        file_name='wine_heatmap.png')
+
     print('Initial wine length', len(wine_df))
     wdl = WineDataLoader(wine_df)
     wdl.apply_pipeline()

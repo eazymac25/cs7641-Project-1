@@ -6,6 +6,7 @@ We do the following steps:
 """
 import os
 import sys
+import timeit
 
 # a way to get around relative imports outside of this package
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
@@ -76,7 +77,12 @@ print(grid_search.best_params_)
 
 # train the best model
 best_model = grid_search.best_estimator_
+# Time fitting best model
+start = timeit.default_timer()
 best_model.fit(x_train, y_train)
+end = timeit.default_timer()
+print('Time to fit:', end-start)
+helpers.log_fit_time('WINE_NN', end-start)
 
 # Predict income with the trained best model
 y_pred = best_model.predict(x_test)
