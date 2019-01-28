@@ -24,6 +24,7 @@ import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import accuracy_score
 
 from solution.classifiers import helpers
 from solution.preprocessors.data_loader import CensusDataLoader
@@ -50,7 +51,8 @@ derived_feature_columns = [
 df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
 
-# These are subject to change based on preprocessing
+# TODO: add non-pruned results
+# These are subject to change based on pre-processing
 feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'hours-per-week', 'capital-gain',
                 'capital-loss', 'sex_Male', 'from_united_states']
@@ -83,11 +85,28 @@ helpers.plot_learning_curve_vs_param(
     param_grid={
         'random_state': [0],
         'criterion': ['entropy'],
-        'max_depth': range(3, 16),
+        'max_depth': range(3, 40),
     },
     cv=5,
     measure_type='mean_test_score',
-    output_location='census_output/depth_learning_curve.png'
+    output_location='census_output/depth_learning_curve.png',
+    param_range=list(range(3, 40))
+)
+
+helpers.plot_learning_curve_vs_param(
+    tree_cls,
+    x_train,
+    y_train,
+    param_grid={
+        'random_state': [0],
+        'criterion': ['entropy'],
+        'max_leaf_nodes': range(5, 100),
+    },
+    cv=5,
+    measure_type='mean_test_score',
+    output_location='census_output/dt_leaf_nodes_learning_curve.png',
+    param_range=list(range(5, 100)),
+    param_name='Max Leaf Nodes'
 )
 
 # Find the best model via GridSearchCV
@@ -97,10 +116,22 @@ grid_search = GridSearchCV(
         'random_state': [0],
         'criterion': ['entropy'],
         'max_depth': range(3, 16),
-        'max_leaf_nodes': range(5, 17),
+        'max_leaf_nodes': range(5, 22),
     },
     cv=kfold
 )
+
+with open(r'./census_output/dt_no_cv_accuracy.txt', 'w') as no_cv_accuracy:
+    for i in range(3, 20):
+        clf = DecisionTreeClassifier(random_state=0, max_depth=i, criterion='entropy')
+
+        clf.fit(x_train, y_train)
+        y_train_pred = clf.predict(x_train)
+        y_predict = clf.predict(x_test)
+
+        no_cv_accuracy.write('Depth: %s, ' % i)
+        no_cv_accuracy.write('Train Accuracy: %s, ' % accuracy_score(y_train, y_train_pred))
+        no_cv_accuracy.write('Test Accuracy: %s \n' % accuracy_score(y_test, y_predict))
 
 grid_search.fit(x_train, y_train)
 
@@ -114,7 +145,7 @@ start = timeit.default_timer()
 best_model.fit(x_train, y_train)
 end = timeit.default_timer()
 print('Time to fit:', end-start)
-helpers.log_fit_time('WINE_NN', end-start)
+helpers.log_fit_time('CENSUS_DT', end-start)
 
 # Export decision tree to graphviz png
 helpers.export_decision_tree_to_file(

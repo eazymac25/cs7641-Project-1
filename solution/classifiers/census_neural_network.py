@@ -102,7 +102,7 @@ start = timeit.default_timer()
 best_model.fit(x_train, y_train)
 end = timeit.default_timer()
 print('Time to fit:', end-start)
-helpers.log_fit_time('WINE_NN', end-start)
+helpers.log_fit_time('CENSUS_NN', end-start)
 
 # Predict income with the trained best model
 y_pred = best_model.predict(x_test)

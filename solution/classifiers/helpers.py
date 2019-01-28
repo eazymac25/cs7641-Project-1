@@ -35,8 +35,11 @@ def timer(func):
         end = timeit.default_timer()
         with open('times.txt', 'a') as time_results:
             time_results.write('Originating Classifier: ' +
-                               str(os.path.basename(
-                                   os.path.realpath(inspect.getfile(inspect.stack()[parent_idx][0])))) + '\n')
+                               str(
+                                   os.path.basename(
+                                       os.path.realpath(
+                                           inspect.getfile(
+                                               inspect.stack()[parent_idx][0])))) + '\n')
             time_results.write(
                 '\tOriginating method: ' + str(func.__name__) + ' took ' + str(end - start) + ' seconds\n')
         print(func.__name__, 'Elapsed', end - start)

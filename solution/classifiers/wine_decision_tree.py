@@ -87,7 +87,7 @@ start = timeit.default_timer()
 best_model.fit(x_train, y_train)
 end = timeit.default_timer()
 print('Time to fit:', end-start)
-helpers.log_fit_time('WINE_NN', end-start)
+helpers.log_fit_time('WINE_DT', end-start)
 
 # Export decision tree to graphviz png
 helpers.export_decision_tree_to_file(
