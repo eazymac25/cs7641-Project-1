@@ -24,3 +24,23 @@ Originating Classifier: census_decision_tree.py
 	Originating method: export_decision_tree_to_file took 0.23185130099999895 seconds
 Originating Classifier: census_decision_tree.py
 	Originating method: plot_learning_curve_vs_train_size took 3.043947247999995 seconds
+Originating Classifier: census_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 12.982473381999998 seconds
+Originating Classifier: census_boosting.py
+	Originating method: plot_learning_curve_vs_param took 17.827810368999998 seconds
+CENSUS_BOOST FIT TIME: 0.5138894260000058
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 2.9950623280000004 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param took 2.074082724 seconds
+WINE_BOOST FIT TIME: 0.0774317730000007
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 3.0064329979999993 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param took 2.054174735 seconds
+WINE_BOOST FIT TIME: 0.0775355960000006
+Originating Classifier: census_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 12.775591759000001 seconds
+Originating Classifier: census_boosting.py
+	Originating method: plot_learning_curve_vs_param took 16.342495385999996 seconds
+CENSUS_BOOST FIT TIME: 0.49246563399999843
