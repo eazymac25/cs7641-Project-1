@@ -44,3 +44,13 @@ Originating Classifier: census_boosting.py
 Originating Classifier: census_boosting.py
 	Originating method: plot_learning_curve_vs_param took 16.342495385999996 seconds
 CENSUS_BOOST FIT TIME: 0.49246563399999843
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_train_size took 53.459425127 seconds
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_param took 80.24480376700001 seconds
+CENSUS_KNN FIT TIME: 0.3359702289999973
+Originating Classifier: wine_knn.py
+	Originating method: plot_learning_curve_vs_train_size took 0.4037297510000002 seconds
+Originating Classifier: wine_knn.py
+	Originating method: plot_learning_curve_vs_param took 0.5075437530000002 seconds
+WINE_KNN FIT TIME: 0.0012103109999994643
