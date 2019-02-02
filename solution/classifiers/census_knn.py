@@ -74,6 +74,7 @@ grid_search = GridSearchCV(
     estimator=KNeighborsClassifier(),
     param_grid={
         'n_neighbors': [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        'weights': ['uniform', 'distance'],
     },
     cv=5
 )
@@ -91,6 +92,15 @@ best_model.fit(x_train, y_train)
 end = timeit.default_timer()
 print('Time to fit:', end-start)
 helpers.log_fit_time('CENSUS_KNN', end-start)
+
+# Plot the learning curve vs train size after finding the best model
+helpers.plot_learning_curve_vs_train_size(
+    best_model,
+    df,
+    feature_cols,
+    'income_num',
+    output_location='census_output/knn_best_model_num_samples_learning_curve.png',
+)
 
 # Predict income with the trained best model
 y_pred = best_model.predict(x_test)

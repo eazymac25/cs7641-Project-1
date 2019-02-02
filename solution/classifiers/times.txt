@@ -64,3 +64,10 @@ Originating Classifier: census_svm.py
 Originating Classifier: census_svm.py
 	Originating method: plot_learning_curve_vs_param took 248.72649435799997 seconds
 CENSUS_SVM FIT TIME: 9.679545935000078
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_train_size took 53.540902838 seconds
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_param took 80.628295289 seconds
+CENSUS_KNN FIT TIME: 0.34257247099998267
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_train_size took 73.11384863699999 seconds
