@@ -19,6 +19,9 @@ from sklearn.svm import SVC
 from solution.classifiers import helpers
 from solution.preprocessors.data_loader import CensusDataLoader
 
+import warnings  # ignore future warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 RUN_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_PATH = os.path.join(RUN_PATH, "data")
 CSV_FILENAME = "raw_census_data.csv"
@@ -26,10 +29,6 @@ CSV_FILENAME = "raw_census_data.csv"
 df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
 
-# These are subject to change based on pre-processing
-# feature_cols = ['age_num', 'education-num', 'marital-status_Single',
-#                 'hours-per-week', 'capital-gain',
-#                 'capital-loss']
 feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'hours-per-week', 'capital-gain',
                 'capital-loss', 'sex_Male', 'from_united_states']
@@ -55,25 +54,27 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max iter vs mean test score
-helpers.plot_learning_curve_vs_param(
+helpers.plot_learning_curve_vs_param_train_and_test(
     SVC(),
     x_train,
     y_train,
     param_grid={
-        'degree': [2, 3, 4, 5, 6],
+        'max_iter': [100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
     },
+    x_test=x_test,
+    y_test=y_test,
     cv=5,
-    param_name='Degree',
-    param_range=[2, 3, 4, 5, 6],
+    param_name='Max Iterations',
+    param_range=[100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
     measure_type='mean_test_score',
-    output_location='census_output/svm_degree_learning_curve.png'
+    output_location='census_output/svm_max_iter_learning_curve.png'
 )
 
 # Find the best model via GridSearchCV
 grid_search = GridSearchCV(
     estimator=SVC(),
     param_grid={
-        'degree': [2, 3, 4, 5, 6],
+        'max_iter': [100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
     },
     cv=5
 )
@@ -102,5 +103,6 @@ helpers.produce_model_performance_summary(
     y_pred,
     output_location='census_output/svm_summary.txt',
     cv=kfold,
-    scoring='accuracy'
+    scoring='accuracy',
+    grid_search=grid_search
 )

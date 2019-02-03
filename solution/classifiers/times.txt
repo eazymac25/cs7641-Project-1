@@ -71,3 +71,107 @@ Originating Classifier: census_knn.py
 CENSUS_KNN FIT TIME: 0.34257247099998267
 Originating Classifier: census_knn.py
 	Originating method: plot_learning_curve_vs_train_size took 73.11384863699999 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 1.0926148529999988 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 3.8709833590000002 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 1.110348547 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 3.952407879999999 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 1.0891437769999994 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 3.7378397119999995 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 1.0861935169999999 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 3.756221086 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 1.084700184 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 3.751179876 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 8.023148663999999 seconds
+CENSUS_DT FIT TIME: 0.010664110000000449
+Originating Classifier: census_decision_tree.py
+	Originating method: export_decision_tree_to_file took 0.3668847970000044 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 3.0055190770000024 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 1.082578228 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 3.8486263039999997 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 6.848955975000001 seconds
+CENSUS_DT FIT TIME: 0.010435415999999975
+Originating Classifier: census_decision_tree.py
+	Originating method: export_decision_tree_to_file took 0.23229987100000216 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 3.0050605520000033 seconds
+Originating Classifier: census_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 453.409650463 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 18.579727525000003 seconds
+WINE_NN FIT TIME: 0.3740610480000015
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 1.098819440999999 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 3.773788381000001 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_param took 7.060394684 seconds
+CENSUS_DT FIT TIME: 0.010699665000000635
+Originating Classifier: census_decision_tree.py
+	Originating method: export_decision_tree_to_file took 0.23498844000000219 seconds
+Originating Classifier: census_decision_tree.py
+	Originating method: plot_learning_curve_vs_train_size took 2.894938138999997 seconds
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 18.138823150999997 seconds
+WINE_NN FIT TIME: 0.36007889400000437
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 3.0760084119999993 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param took 2.3499600639999993 seconds
+WINE_BOOST FIT TIME: 0.08779750000000064
+Originating Classifier: wine_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 19.578383524 seconds
+WINE_NN FIT TIME: 0.6608676009999996
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 1.4346181509999996 seconds
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_param took 0.6112806719999995 seconds
+WINE_SVM FIT TIME: 0.033792863000000395
+Originating Classifier: wine_knn.py
+	Originating method: plot_learning_curve_vs_train_size took 0.3943581570000001 seconds
+Originating Classifier: wine_knn.py
+	Originating method: plot_learning_curve_vs_param took 0.6040890599999997 seconds
+WINE_KNN FIT TIME: 0.0014691560000006376
+Originating Classifier: census_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 13.416902945999999 seconds
+CENSUS_BOOST FIT TIME: 0.5411559940000004
+Originating Classifier: census_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 13.359008529 seconds
+CENSUS_BOOST FIT TIME: 1.1067847410000127
+Originating Classifier: census_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 13.179252105 seconds
+CENSUS_BOOST FIT TIME: 0.9912925840000071
+Originating Classifier: census_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 13.213611296 seconds
+CENSUS_BOOST FIT TIME: 1.2290239229999997
+Originating Classifier: census_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 495.439417583 seconds
+CENSUS_SVM FIT TIME: 0.06066206099990268
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 1.4719480810000007 seconds
+WINE_SVM FIT TIME: 0.02422130500000108
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 1.5479323160000007 seconds
+WINE_SVM FIT TIME: 0.023912681999998853
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 1.4126715479999996 seconds
+WINE_SVM FIT TIME: 0.025615367000000333
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 1.4554500140000002 seconds
+WINE_SVM FIT TIME: 0.011024500999999631
+Originating Classifier: census_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 512.342726924 seconds

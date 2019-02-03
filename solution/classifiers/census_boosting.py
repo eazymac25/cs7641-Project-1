@@ -26,10 +26,6 @@ CSV_FILENAME = "raw_census_data.csv"
 df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
 
-# These are subject to change based on pre-processing
-# feature_cols = ['age_num', 'education-num', 'marital-status_Single',
-#                 'hours-per-week', 'capital-gain',
-#                 'capital-loss']
 feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'hours-per-week', 'capital-gain',
                 'capital-loss', 'sex_Male', 'from_united_states']
@@ -55,16 +51,18 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max iter vs mean test score
-helpers.plot_learning_curve_vs_param(
+helpers.plot_learning_curve_vs_param_train_and_test(
     AdaBoostClassifier(),
     x_train,
     y_train,
+    x_test=x_test,
+    y_test=y_test,
     param_grid={
-        'n_estimators': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        'n_estimators': range(10, 310, 10),
     },
     cv=5,
     param_name='N Estimators',
-    param_range=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+    param_range=list(range(10, 310, 10)),
     measure_type='mean_test_score',
     output_location='census_output/boost_n_estimators_learning_curve.png'
 )
@@ -73,7 +71,7 @@ helpers.plot_learning_curve_vs_param(
 grid_search = GridSearchCV(
     estimator=AdaBoostClassifier(),
     param_grid={
-        'n_estimators': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        'n_estimators': range(10, 310, 10),
     },
     cv=5
 )
@@ -100,6 +98,7 @@ helpers.produce_model_performance_summary(
     x_test,
     y_test,
     y_pred,
+    grid_search=grid_search,
     output_location='census_output/boost_summary.txt',
     cv=kfold,
     scoring='accuracy'

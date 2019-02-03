@@ -61,7 +61,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max iter vs mean test score
-helpers.plot_learning_curve_vs_param(
+helpers.plot_learning_curve_vs_param_train_and_test(
     MLPClassifier(
         solver='sgd',
         alpha=1e-3,
@@ -70,6 +70,8 @@ helpers.plot_learning_curve_vs_param(
         activation='logistic'),
     x_train,
     y_train,
+    x_test=x_test,
+    y_test=y_test,
     param_grid={
         'max_iter': range(100, 1100, 100),
     },

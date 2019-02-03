@@ -67,7 +67,7 @@ helpers.plot_learning_curve_vs_train_size(
     df,
     feature_cols,
     'income_num',
-    output_location='census_output/num_samples_learning_curve.png'
+    output_location='census_output/dt_num_samples_learning_curve.png'
 )
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -89,7 +89,7 @@ helpers.plot_learning_curve_vs_param(
     },
     cv=5,
     measure_type='mean_test_score',
-    output_location='census_output/depth_learning_curve.png',
+    output_location='census_output/dt_depth_learning_curve.png',
     param_range=list(range(3, 40))
 )
 
@@ -106,7 +106,7 @@ helpers.plot_learning_curve_vs_param(
     measure_type='mean_test_score',
     output_location='census_output/dt_leaf_nodes_learning_curve.png',
     param_range=list(range(5, 100)),
-    param_name='Max Leaf Nodes'
+    param_name='Max Leaf Nodes',
 )
 
 # Find the best model via GridSearchCV
@@ -162,7 +162,7 @@ helpers.plot_learning_curve_vs_train_size(
     df,
     feature_cols,
     'income_num',
-    output_location='census_output/best_model_num_samples_learning_curve.png',
+    output_location='census_output/dt_best_model_num_samples_learning_curve.png',
     lin_space=np.linspace(0.1, 1.0, num=50)
 )
 

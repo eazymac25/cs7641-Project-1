@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath
 import numpy as np
 import graphviz
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
 from sklearn.tree import export_graphviz
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import learning_curve
@@ -102,7 +102,7 @@ def plot_learning_curve_vs_train_size(classifier, dataframe, feature_cols, targe
 
 @timer
 def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, param_name='Depth',
-                                 param_range=list(range(3, 16)), cv=5,
+                                 param_range=list(range(3, 16)), cv=5, measure_graph_label='Accuracy',
                                  measure_type='mean_test_score', output_location=''):
     grid_search = GridSearchCV(
         estimator=classifier,
@@ -115,8 +115,44 @@ def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, pa
     plt.figure()
     plt.title("Learning Curve - %s" % param_name)
     plt.xlabel(param_name)
-    plt.ylabel("Accuracy")
+    plt.ylabel(measure_graph_label)
     plt.plot(param_range, grid_search.cv_results_[measure_type])
+    plt.savefig(output_location)
+
+
+@timer
+def plot_learning_curve_vs_param_train_and_test(
+        classifier, x_train, y_train, param_grid={}, param_name='Depth',
+        param_range=list(range(3, 16)), cv=5, measure_type='mean_test_score',
+        measure_graph_label='Accuracy', output_location='', x_test=None, y_test=None):
+    grid_search = GridSearchCV(
+        estimator=classifier,
+        param_grid=param_grid,
+        cv=cv
+    )
+
+    grid_search.fit(x_train, y_train)
+
+    plt.figure()
+    plt.title("Learning Curve - %s" % param_name)
+    plt.xlabel(param_name)
+    plt.ylabel(measure_graph_label)
+    plt.plot(param_range, grid_search.cv_results_[measure_type], label='Validation')
+
+    if x_test is not None and y_test is not None:
+        scores = []
+        for param, values in param_grid.items():
+            base_kwargs = classifier.get_params()
+            for val in values:
+                base_kwargs[param] = val
+                predictor = classifier.set_params(**base_kwargs)
+                predictor.fit(x_train, y_train)
+                y_pred = predictor.predict(x_test)
+                scores.append(accuracy_score(y_test, y_pred))
+                del base_kwargs[param]
+            break
+        plt.plot(param_range, scores, label='Test')
+    plt.legend(loc='best')
     plt.savefig(output_location)
 
 

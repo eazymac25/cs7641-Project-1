@@ -42,7 +42,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     df[feature_cols],
     df['quality_num'],
     random_state=0,
-    test_size=0.35
+    test_size=0.2
 )
 
 # Plot the learning curve for max iter vs mean test score
