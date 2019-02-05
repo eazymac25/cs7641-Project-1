@@ -1,17 +1,19 @@
-
+################ GRAPH SEARCH SUMMARY ################
+BEST SCORE: 0.8524356031624586
+BEST PARAMS: {'max_iter': 4000}
 ############### PREDICTION SUMMARY ####################
 CROSS VALIDATION:
-[0.73248106 0.7092803  0.75272383 0.61108479 0.56655613]
+[0.83570076 0.84564394 0.84509711 0.82804358 0.84178115]
 CONFUSION MATRIX:
-[[7854   67]
- [2568   68]]
+[[7503  418]
+ [1189 1447]]
 CLASSIFICATION REPORT:
               precision    recall  f1-score   support
 
-           0       0.75      0.99      0.86      7921
-           1       0.50      0.03      0.05      2636
+           0       0.86      0.95      0.90      7921
+           1       0.78      0.55      0.64      2636
 
-   micro avg       0.75      0.75      0.75     10557
-   macro avg       0.63      0.51      0.45     10557
-weighted avg       0.69      0.75      0.65     10557
+   micro avg       0.85      0.85      0.85     10557
+   macro avg       0.82      0.75      0.77     10557
+weighted avg       0.84      0.85      0.84     10557
 

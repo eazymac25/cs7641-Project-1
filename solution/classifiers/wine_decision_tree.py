@@ -29,7 +29,7 @@ feature_cols = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual su
                 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
 kfold = KFold(n_splits=5)
-tree_cls = DecisionTreeClassifier()
+tree_cls = DecisionTreeClassifier(random_state=0, criterion='entropy')
 
 # Plot the learning curve vs train size.
 # Helps determine the train vs test split split ratio
@@ -49,17 +49,15 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max depth vs mean test score
-helpers.plot_learning_curve_vs_param(
+helpers.plot_learning_curve_vs_param_train_and_test(
     tree_cls,
     x_train,
     y_train,
-    param_grid={
-        'random_state': [0],
-        'criterion': ['entropy'],
-        'max_depth': range(3, 16),
-    },
-    cv=5,
-    measure_type='mean_test_score',
+    x_test=x_test,
+    y_test=y_test,
+    param='max_depth',
+    param_values=list(range(3, 33)),
+    param_name='Max Depth',
     output_location='wine_output/depth_learning_curve.png'
 )
 
@@ -67,10 +65,8 @@ helpers.plot_learning_curve_vs_param(
 grid_search = GridSearchCV(
     estimator=tree_cls,
     param_grid={
-        'random_state': [0],
-        'criterion': ['entropy'],
         'max_depth': range(3, 16),
-        'max_leaf_nodes': range(5, 17),
+        'max_leaf_nodes': range(5, 33),
     },
     cv=kfold
 )

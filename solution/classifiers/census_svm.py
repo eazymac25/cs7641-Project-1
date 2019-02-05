@@ -58,15 +58,11 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     SVC(),
     x_train,
     y_train,
-    param_grid={
-        'max_iter': [100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
-    },
+    param='max_iter',
+    param_values=[100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
     x_test=x_test,
     y_test=y_test,
-    cv=5,
     param_name='Max Iterations',
-    param_range=[100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
-    measure_type='mean_test_score',
     output_location='census_output/svm_max_iter_learning_curve.png'
 )
 

@@ -26,10 +26,6 @@ CSV_FILENAME = "raw_census_data.csv"
 df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
 
-# These are subject to change based on pre-processing
-# feature_cols = ['age_num', 'education-num', 'marital-status_Single',
-#                 'hours-per-week', 'capital-gain',
-#                 'capital-loss']
 feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'hours-per-week', 'capital-gain',
                 'capital-loss', 'sex_Male', 'from_united_states']
@@ -55,16 +51,16 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max iter vs mean test score
-helpers.plot_learning_curve_vs_param(
+helpers.plot_learning_curve_vs_param_train_and_test(
     KNeighborsClassifier(),
     x_train,
     y_train,
-    param_grid={
-        'n_neighbors': [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-    },
+    x_test=x_test,
+    y_test=y_test,
+    param='n_neighbors',
+    param_values=[5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     cv=5,
     param_name='N Neighbors',
-    param_range=[5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     measure_type='mean_test_score',
     output_location='census_output/knn_n_neighbors_learning_curve.png'
 )

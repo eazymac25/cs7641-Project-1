@@ -57,13 +57,9 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     y_train,
     x_test=x_test,
     y_test=y_test,
-    param_grid={
-        'n_estimators': range(10, 310, 10),
-    },
-    cv=5,
+    param='n_estimators',
+    param_values=list(range(10, 310, 10)),
     param_name='N Estimators',
-    param_range=list(range(10, 310, 10)),
-    measure_type='mean_test_score',
     output_location='census_output/boost_n_estimators_learning_curve.png'
 )
 

@@ -122,12 +122,13 @@ def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, pa
 
 @timer
 def plot_learning_curve_vs_param_train_and_test(
-        classifier, x_train, y_train, param_grid={}, param_name='Depth',
-        param_range=list(range(3, 16)), cv=5, measure_type='mean_test_score',
-        measure_graph_label='Accuracy', output_location='', x_test=None, y_test=None):
+        classifier, x_train, y_train, param='max_depth', param_values=[], param_name='Depth',
+        cv=5, measure_type='mean_test_score', measure_graph_label='Accuracy',
+        output_location='', x_test=None, y_test=None):
+
     grid_search = GridSearchCV(
         estimator=classifier,
-        param_grid=param_grid,
+        param_grid={param: param_values},
         cv=cv
     )
 
@@ -137,21 +138,22 @@ def plot_learning_curve_vs_param_train_and_test(
     plt.title("Learning Curve - %s" % param_name)
     plt.xlabel(param_name)
     plt.ylabel(measure_graph_label)
-    plt.plot(param_range, grid_search.cv_results_[measure_type], label='Validation')
+    plt.plot(param_values, grid_search.cv_results_[measure_type], label='Training Set')
 
     if x_test is not None and y_test is not None:
         scores = []
-        for param, values in param_grid.items():
-            base_kwargs = classifier.get_params()
-            for val in values:
-                base_kwargs[param] = val
-                predictor = classifier.set_params(**base_kwargs)
-                predictor.fit(x_train, y_train)
-                y_pred = predictor.predict(x_test)
-                scores.append(accuracy_score(y_test, y_pred))
-                del base_kwargs[param]
-            break
-        plt.plot(param_range, scores, label='Test')
+        base_kwargs = classifier.get_params()
+        for val in param_values:
+            base_kwargs[param] = val
+            predictor = classifier.set_params(**base_kwargs)
+
+            predictor.fit(x_train, y_train)
+
+            y_pred = predictor.predict(x_test)
+            scores.append(accuracy_score(y_test, y_pred))
+            del base_kwargs[param]
+
+        plt.plot(param_values, scores, label='Validation Set')
     plt.legend(loc='best')
     plt.savefig(output_location)
 

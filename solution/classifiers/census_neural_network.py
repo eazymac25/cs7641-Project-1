@@ -72,13 +72,9 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     y_train,
     x_test=x_test,
     y_test=y_test,
-    param_grid={
-        'max_iter': range(100, 1100, 100),
-    },
-    cv=5,
+    param='max_iter',
+    param_values=list(range(100, 1100, 100)),
     param_name='Max Iterations',
-    param_range=list(range(100, 1100, 100)),
-    measure_type='mean_test_score',
     output_location='census_output/nn_max_iter_learning_curve.png'
 )
 
