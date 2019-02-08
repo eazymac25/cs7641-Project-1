@@ -38,7 +38,17 @@ helpers.plot_learning_curve_vs_train_size(
     df,
     feature_cols,
     'quality_num',
-    output_location='wine_output/svm_num_samples_learning_curve.png'
+    title='Learning Curve - Number of Samples (Kernel=Linear)',
+    output_location='wine_output/svm_rbf_num_samples_learning_curve.png'
+)
+
+helpers.plot_learning_curve_vs_train_size(
+    SVC(kernel='linear'),
+    df,
+    feature_cols,
+    'quality_num',
+    title='Learning Curve - Number of Samples (Kernel=Linear)',
+    output_location='wine_output/svm_linear_num_samples_learning_curve.png'
 )
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -49,8 +59,9 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max iter vs mean test score
+# kernel = rbf (radial basis function)
 helpers.plot_learning_curve_vs_param_train_and_test(
-    SVC(),
+    SVC(kernel='rbf'),
     x_train,
     y_train,
     param='max_iter',
@@ -58,9 +69,25 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     x_test=x_test,
     y_test=y_test,
     cv=3,
-    param_name='Max Iterations',
+    param_name='(Kernel=RBF) Max Iterations',
     measure_type='mean_test_score',
-    output_location='wine_output/svm_max_iter_learning_curve.png'
+    output_location='wine_output/svm_rbf_max_iter_learning_curve.png'
+)
+
+# Plot the learning curve for max iter vs mean test score
+# kernel = linear
+helpers.plot_learning_curve_vs_param_train_and_test(
+    SVC(kernel='linear'),
+    x_train,
+    y_train,
+    param='max_iter',
+    param_values=list(range(50, 650, 50)),
+    x_test=x_test,
+    y_test=y_test,
+    cv=3,
+    param_name='(Kernel=Linear) Max Iterations',
+    measure_type='mean_test_score',
+    output_location='wine_output/svm_linear_max_iter_learning_curve.png'
 )
 
 # Find the best model via GridSearchCV

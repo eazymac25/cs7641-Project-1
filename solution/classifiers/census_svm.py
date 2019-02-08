@@ -34,7 +34,7 @@ feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'capital-loss', 'sex_Male', 'from_united_states']
 
 kfold = KFold(n_splits=5)
-cls = SVC()
+cls = SVC()  # rbf by default
 
 # Plot the learning curve vs train size.
 # Helps determine the train vs test split split ratio
@@ -43,8 +43,19 @@ helpers.plot_learning_curve_vs_train_size(
     df,
     feature_cols,
     'income_num',
-    output_location='census_output/svm_num_samples_learning_curve.png'
+    title='Learning Curve - Number of Samples (Kernel=RBF)',
+    output_location='census_output/svm_rbf_num_samples_learning_curve.png'
 )
+
+# # linear kernel for comparison
+# helpers.plot_learning_curve_vs_train_size(
+#     SVC(kernel='linear'),
+#     df,
+#     feature_cols,
+#     'income_num',
+#     title='Learning Curve - Number of Samples (Kernel=Linear)',
+#     output_location='census_output/svm_linear_num_samples_learning_curve.png'
+# )
 
 x_train, x_test, y_train, y_test = train_test_split(
     df[feature_cols],
@@ -54,8 +65,9 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max iter vs mean test score
+# kernel = rbf (radial basis function)
 helpers.plot_learning_curve_vs_param_train_and_test(
-    SVC(),
+    SVC(kernel='rbf'),
     x_train,
     y_train,
     param='max_iter',
@@ -63,7 +75,21 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     x_test=x_test,
     y_test=y_test,
     param_name='Max Iterations',
-    output_location='census_output/svm_max_iter_learning_curve.png'
+    output_location='census_output/svm_rbf_max_iter_learning_curve.png'
+)
+
+# Plot the learning curve for max iter vs mean test score
+# kernel = linear
+helpers.plot_learning_curve_vs_param_train_and_test(
+    SVC(kernel='linear'),
+    x_train,
+    y_train,
+    param='max_iter',
+    param_values=[100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
+    x_test=x_test,
+    y_test=y_test,
+    param_name='Max Iterations',
+    output_location='census_output/svm_linear_max_iter_learning_curve.png'
 )
 
 # Find the best model via GridSearchCV

@@ -76,9 +76,11 @@ def produce_model_performance_summary(best_model, x_test, y_test, y_pred,
 
 
 @timer
-def plot_learning_curve_vs_train_size(classifier, dataframe, feature_cols, target_col, output_location,
-                                      training_label='Training Set', validation_label='Cross Validation Set',
-                                      lin_space=np.linspace(0.1, 1.0, num=10)):
+def plot_learning_curve_vs_train_size(
+        classifier, dataframe, feature_cols, target_col, output_location,
+        training_label='Training Set', validation_label='Test Set',
+        title='Learning Curve - Training Set Size',
+        lin_space=np.linspace(0.1, 1.0, num=10)):
     train_sizes, train_scores, validation_scores = learning_curve(
         classifier,
         dataframe[feature_cols],
@@ -88,7 +90,7 @@ def plot_learning_curve_vs_train_size(classifier, dataframe, feature_cols, targe
     )
 
     plt.figure()
-    plt.title("Learning Curve - Training Set Size")
+    plt.title(title)
 
     plt.xlabel("Number of Training Samples")
     plt.ylabel("Accuracy")
@@ -138,10 +140,11 @@ def plot_learning_curve_vs_param_train_and_test(
     plt.title("Learning Curve - %s" % param_name)
     plt.xlabel(param_name)
     plt.ylabel(measure_graph_label)
-    plt.plot(param_values, grid_search.cv_results_[measure_type], label='Training Set')
+    plt.plot(param_values, grid_search.cv_results_[measure_type], label='Training Set (CV Average)')
 
     if x_test is not None and y_test is not None:
-        scores = []
+        train_scores = []
+        test_scores = []
         base_kwargs = classifier.get_params()
         for val in param_values:
             base_kwargs[param] = val
@@ -149,11 +152,14 @@ def plot_learning_curve_vs_param_train_and_test(
 
             predictor.fit(x_train, y_train)
 
-            y_pred = predictor.predict(x_test)
-            scores.append(accuracy_score(y_test, y_pred))
-            del base_kwargs[param]
+            y_train_pred = predictor.predict(x_train)
+            train_scores.append(accuracy_score(y_train, y_train_pred))
 
-        plt.plot(param_values, scores, label='Validation Set')
+            y_pred = predictor.predict(x_test)
+            test_scores.append(accuracy_score(y_test, y_pred))
+            del base_kwargs[param]
+        plt.plot(param_values, train_scores, label='Training Set')
+        plt.plot(param_values, test_scores, label='Test Set')
     plt.legend(loc='best')
     plt.savefig(output_location)
 

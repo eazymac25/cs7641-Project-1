@@ -2,6 +2,12 @@
 
 # Installation
 
+NOTE: The installation relies on Anaconda.
+
+### Prerequisites
+ - [Anaconda](https://www.anaconda.com/)
+    - please download the anaconda appropriate for your OS.
+
 ```bash
 # make sure to install graphviz
 sudo apt-get install graphviz

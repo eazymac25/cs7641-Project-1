@@ -26,6 +26,7 @@ feature_cols = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual su
                 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
 kfold = KFold(n_splits=3)
+# defaults to weak learner DecisionTreeClassifier with max_depth=1
 cls = cls = AdaBoostClassifier()
 
 # Plot the learning curve vs train size.
@@ -46,16 +47,16 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max iter vs mean test score
-helpers.plot_learning_curve_vs_param(
+helpers.plot_learning_curve_vs_param_train_and_test(
     AdaBoostClassifier(),
     x_train,
     y_train,
-    param_grid={
-        'n_estimators': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-    },
+    x_test=x_test,
+    y_test=y_test,
+    param='n_estimators',
+    param_values=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     cv=3,
     param_name='N Estimators',
-    param_range=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     measure_type='mean_test_score',
     output_location='wine_output/boost_n_estimators_learning_curve.png'
 )

@@ -1,4 +1,6 @@
-
+################ GRAPH SEARCH SUMMARY ################
+BEST SCORE: 0.8537920250195465
+BEST PARAMS: {'alpha': 1e-06, 'hidden_layer_sizes': (200,)}
 ############### PREDICTION SUMMARY ####################
 CROSS VALIDATION:
 [0.90654206 0.90654206 0.90566038]

@@ -46,23 +46,23 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 # Plot the learning curve for max iter vs mean test score
-helpers.plot_learning_curve_vs_param(
+helpers.plot_learning_curve_vs_param_train_and_test(
     KNeighborsClassifier(),
     x_train,
     y_train,
-    param_grid={
-        'n_neighbors': [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-    },
-    cv=3,
+    x_test=x_test,
+    y_test=y_test,
+    param='n_neighbors',
+    param_values=[5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     param_name='N Neighbors',
-    param_range=[5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+    cv=3,
     measure_type='mean_test_score',
     output_location='wine_output/knn_n_neighbors_learning_curve.png'
 )
 
 # Find the best model via GridSearchCV
 grid_search = GridSearchCV(
-    estimator=KNeighborsClassifier(),
+    estimator=KNeighborsClassifier(weights='distance'),
     param_grid={
         'n_neighbors': [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     },

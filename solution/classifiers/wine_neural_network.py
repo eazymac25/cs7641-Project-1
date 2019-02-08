@@ -103,6 +103,7 @@ helpers.produce_model_performance_summary(
     x_test,
     y_test,
     y_pred,
+    grid_search=grid_search,
     output_location='wine_output/neural_net_summary.txt',
     cv=3,
     scoring='accuracy'
