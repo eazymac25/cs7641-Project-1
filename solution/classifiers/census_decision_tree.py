@@ -32,6 +32,7 @@ from solution.preprocessors.data_loader import CensusDataLoader
 RUN_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 DATA_PATH = os.path.join(RUN_PATH, "data")
 CSV_FILENAME = "raw_census_data.csv"
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 raw_data_columns = [
     'age', 'workclass', 'fnwgt',
@@ -121,7 +122,7 @@ grid_search = GridSearchCV(
     cv=kfold
 )
 
-with open(r'./census_output/dt_no_cv_accuracy.txt', 'w') as no_cv_accuracy:
+with open(os.path.join(HERE, 'census_output/dt_no_cv_accuracy.txt'), 'w') as no_cv_accuracy:
     for i in range(3, 20):
         clf = DecisionTreeClassifier(random_state=0, max_depth=i, criterion='entropy')
 

@@ -26,6 +26,8 @@ if sys_pf == 'darwin':
 else:
     import matplotlib.pyplot as plt
 
+HERE = os.path.abspath(os.path.dirname(__file__))
+
 
 def timer(func):
     def func_timer(*args, **kwargs):
@@ -33,7 +35,7 @@ def timer(func):
         parent_idx = 1
         results = func(*args, **kwargs)
         end = timeit.default_timer()
-        with open('times.txt', 'a') as time_results:
+        with open(append_abs_path('times.txt'), 'a') as time_results:
             time_results.write('Originating Classifier: ' +
                                str(
                                    os.path.basename(
@@ -49,13 +51,13 @@ def timer(func):
 
 
 def log_fit_time(model_origin, total_time):
-    with open('times.txt', 'a') as time_results:
+    with open(append_abs_path('times.txt'), 'a') as time_results:
         time_results.write(model_origin.upper() + ' FIT TIME: ' + str(total_time) + '\n')
 
 
 def produce_model_performance_summary(best_model, x_test, y_test, y_pred,
                                       output_location, grid_search=None, cv=5, scoring='accuracy'):
-    with open(output_location, 'w') as output:
+    with open(append_abs_path(output_location), 'w') as output:
         if grid_search:
             output.write('################ GRAPH SEARCH SUMMARY ################\n')
 
@@ -99,7 +101,7 @@ def plot_learning_curve_vs_train_size(
     plt.plot(train_sizes, np.mean(validation_scores, axis=1), color="g", label=validation_label)
     plt.legend(loc='best')
 
-    plt.savefig(output_location)
+    plt.savefig(append_abs_path(output_location))
 
 
 @timer
@@ -119,7 +121,7 @@ def plot_learning_curve_vs_param(classifier, x_train, y_train, param_grid={}, pa
     plt.xlabel(param_name)
     plt.ylabel(measure_graph_label)
     plt.plot(param_range, grid_search.cv_results_[measure_type])
-    plt.savefig(output_location)
+    plt.savefig(append_abs_path(output_location))
 
 
 @timer
@@ -161,7 +163,7 @@ def plot_learning_curve_vs_param_train_and_test(
         plt.plot(param_values, train_scores, label='Training Set')
         plt.plot(param_values, test_scores, label='Test Set')
     plt.legend(loc='best')
-    plt.savefig(output_location)
+    plt.savefig(append_abs_path(output_location))
 
 
 @timer
@@ -174,7 +176,13 @@ def export_decision_tree_to_file(model, feature_names=[], class_names=[], output
             class_names=class_names,
             filled=True)
         graph = graphviz.Source(dots, format=format)
-        graph.render(output_location)
+        graph.render(append_abs_path(output_location))
     except Exception as e:
         print("Exception using graphviz with error: %s" % e)
         print("Did you install graphviz (sudo apt-get install graphviz)?")
+
+
+def append_abs_path(base_path):
+    if HERE in base_path:
+        return base_path
+    return os.path.join(HERE, base_path)
