@@ -49,7 +49,7 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
     ```bash
     # Linux
     sudo apt-get install graphviz
-    # Mac 
+    # Mac
     sudo brew install graphviz
     ```
 
@@ -61,7 +61,7 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
 4. Move into directory
 
     - `cd cs764l-Project-1`
-    
+
 5. Install Requirements (make sure you did step 4)
 
     ```bash
@@ -75,17 +75,5 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
     # or with conda
     conda install --file requirements.txt
     ```
-    
-## Running Experiments
 
-```bash
-python run.py [census|wine] [tree|nn|boost|svm|knn]
-```
-### Args:
-1. Dataset either census or wine
-2. Model
-    - tree for Decision Tree
-    - nn for Neural Network
-    - boost for Boosted Decision Tree
-    - SVM for Support Vector Machine
-    - KNN for K-Nearest Neighbors
+### Running Experiments
