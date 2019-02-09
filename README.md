@@ -44,12 +44,12 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
 
 1. Install graphviz (Mac or Linux)
 
-```bash
-# Linux
-sudo apt-get install graphviz
-# Mac 
-sudo brew install graphviz
-```
+    ```bash
+    # Linux
+    sudo apt-get install graphviz
+    # Mac 
+    sudo brew install graphviz
+    ```
 
 2. Download project
 
