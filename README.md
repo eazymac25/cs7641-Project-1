@@ -9,15 +9,15 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
 
 ## Data Sets
 
-- [US Census Data]()
-- [Wine Acidity]()
+- [US Census Data](https://www.kaggle.com/uciml/adult-census-income)
+- [Wine Quality](https://www.kaggle.com/uciml/red-wine-quality-cortez-et-al-2009)
 
 ## Classifiers
-- [Decision Tree with pruning]()
-- [Multi-Layer Neural Network]()
-- [Boosted Decision Tree]()
-- [Support Vector Machine]()
-- [KNN]()
+- [Decision Tree with pruning](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
+- [Multi-Layer Neural Network](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html)
+- [Boosted Decision Tree](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html)
+- [Support Vector Machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html)
+- [KNN](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
 
 ## Directory Structure
 ```
@@ -43,7 +43,6 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
 
 ## Installation
 
-### Directions
 1. Install [Anaconda](https://www.anaconda.com/)
     - please download the anaconda appropriate for your OS.
     - **Version**: Python 3.7.1
