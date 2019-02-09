@@ -57,26 +57,17 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
 4. Move into directory
 
     - `cd cs764l-Project-1`
-```bash
-# make sure to install graphviz
-sudo apt-get install graphviz
-# or for Macs
-sudo brew install graphviz
+    
+5. Install Requirements (make sure you did step 4)
 
-git clone https://github.com/eazymac25/cs7641-Project-1.git
-
-cd cs7641-Project-1
-
-conda create --name myenv python=3.7 # creates full env
-
-# or
-
-conda env create -f environment.yml
-
-# activate the env
-conda activate myenv
-
-# skip if you used the environment.yml
-conda install --file requirements.txt
-
-```
+    ```bash
+    conda create --name kmacneney3-solution python=3.7
+    conda activate kmacneney3-solution
+    conda install --file requirements.txt
+    ```
+    Or if you don't care about using an virtual environment
+    ```bash
+    pip install -r requirements.txt
+    # or with conda
+    conda install --file requirements.txt
+    ```
