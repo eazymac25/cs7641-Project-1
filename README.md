@@ -44,7 +44,7 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
     - please download the anaconda appropriate for your OS.
     - **Version**: Python 3.7.1
 
-2. Install graphviz (Mac or Linux)
+2. Install graphviz (Mac or Linux only)
 
     ```bash
     # Linux
@@ -59,8 +59,8 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
     - `git clone https://github.com/eazymac25/cs7641-Project-1.git`
 
 4. Move into directory
-
-    - `cd cs764l-Project-1`
+    - If downloaded the zip from drive: `unzip kmacneney3-project1-soluition.zip && cd cs7641-Project-1`
+    - If cloned from git: `cd cs764l-Project-1`
     
 5. Install Requirements (make sure you did step 4)
 
