@@ -1,6 +1,10 @@
 # CS7641-Project-1
 Project 1
 
+Author: Kyle MacNeney
+
+Author Email: kyle.macneney@gmail.com
+
 Repository: https://github.com/eazymac25/cs7641-Project-1
 
 ## Data Sets
