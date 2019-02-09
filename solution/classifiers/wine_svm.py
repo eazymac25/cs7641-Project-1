@@ -29,7 +29,7 @@ feature_cols = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual su
                 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
 kfold = KFold(n_splits=3)
-cls = cls = SVC()
+cls = SVC()
 
 # Plot the learning curve vs train size.
 # Helps determine the train vs test split split ratio
@@ -38,7 +38,7 @@ helpers.plot_learning_curve_vs_train_size(
     df,
     feature_cols,
     'quality_num',
-    title='Learning Curve - Number of Samples (Kernel=Linear)',
+    title='Learning Curve - Number of Samples (Kernel=RBF)',
     output_location='wine_output/svm_rbf_num_samples_learning_curve.png'
 )
 

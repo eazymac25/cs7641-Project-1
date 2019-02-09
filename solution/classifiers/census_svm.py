@@ -74,7 +74,7 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     param_values=[100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
     x_test=x_test,
     y_test=y_test,
-    param_name='Max Iterations',
+    param_name='(Kernel=RBF) Max Iterations',
     output_location='census_output/svm_rbf_max_iter_learning_curve.png'
 )
 
@@ -88,7 +88,7 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     param_values=[100, 500, 1000, 1500, 2000, 3000, 4000, 5000],
     x_test=x_test,
     y_test=y_test,
-    param_name='Max Iterations',
+    param_name='(Kernel=Linear) Max Iterations',
     output_location='census_output/svm_linear_max_iter_learning_curve.png'
 )
 

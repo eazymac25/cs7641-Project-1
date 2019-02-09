@@ -26,10 +26,6 @@ CSV_FILENAME = "raw_census_data.csv"
 df = pd.read_csv(os.path.join(DATA_PATH, CSV_FILENAME))
 df = CensusDataLoader(df).apply_pipeline()
 
-# These are subject to change based on pre-processing
-# feature_cols = ['age_num', 'education-num', 'marital-status_Single',
-#                 'hours-per-week', 'capital-gain',
-#                 'capital-loss']
 feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'hours-per-week', 'capital-gain',
                 'capital-loss', 'sex_Male', 'from_united_states']

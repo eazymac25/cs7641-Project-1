@@ -26,7 +26,8 @@ feature_cols = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual su
                 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
 kfold = KFold(n_splits=3)
-cls = cls = KNeighborsClassifier()
+weighting = 'distance'
+cls = KNeighborsClassifier(weights=weighting)
 
 # Plot the learning curve vs train size.
 # Helps determine the train vs test split split ratio
@@ -35,7 +36,7 @@ helpers.plot_learning_curve_vs_train_size(
     df,
     feature_cols,
     'quality_num',
-    output_location='wine_output/knn_samples_learning_curve.png'
+    output_location='wine_output/knn_%s_samples_learning_curve.png' % weighting
 )
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -47,7 +48,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 # Plot the learning curve for max iter vs mean test score
 helpers.plot_learning_curve_vs_param_train_and_test(
-    KNeighborsClassifier(),
+    KNeighborsClassifier(weights=weighting),
     x_train,
     y_train,
     x_test=x_test,
@@ -57,12 +58,12 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     param_name='N Neighbors',
     cv=3,
     measure_type='mean_test_score',
-    output_location='wine_output/knn_n_neighbors_learning_curve.png'
+    output_location='wine_output/knn_%s_n_neighbors_learning_curve.png' % weighting
 )
 
 # Find the best model via GridSearchCV
 grid_search = GridSearchCV(
-    estimator=KNeighborsClassifier(weights='distance'),
+    estimator=KNeighborsClassifier(weights=weighting),
     param_grid={
         'n_neighbors': [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     },
@@ -91,7 +92,7 @@ helpers.produce_model_performance_summary(
     x_test,
     y_test,
     y_pred,
-    output_location='wine_output/knn_summary.txt',
+    output_location='wine_output/knn_%s_summary.txt' % weighting,
     cv=3,
     scoring='accuracy'
 )

@@ -27,7 +27,7 @@ feature_cols = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual su
 
 kfold = KFold(n_splits=3)
 # defaults to weak learner DecisionTreeClassifier with max_depth=1
-cls = cls = AdaBoostClassifier()
+cls = AdaBoostClassifier()
 
 # Plot the learning curve vs train size.
 # Helps determine the train vs test split split ratio

@@ -31,7 +31,8 @@ feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'capital-loss', 'sex_Male', 'from_united_states']
 
 kfold = KFold(n_splits=5)
-cls = KNeighborsClassifier()
+weighting = 'distance'  # NOTE: Change this value to output graphs for different weight types.
+cls = KNeighborsClassifier(weights=weighting)
 
 # Plot the learning curve vs train size.
 # Helps determine the train vs test split split ratio
@@ -40,7 +41,7 @@ helpers.plot_learning_curve_vs_train_size(
     df,
     feature_cols,
     'income_num',
-    output_location='census_output/knn_num_samples_learning_curve.png'
+    output_location='census_output/knn_%s_num_samples_learning_curve.png' % weighting
 )
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -52,7 +53,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 # Plot the learning curve for max iter vs mean test score
 helpers.plot_learning_curve_vs_param_train_and_test(
-    KNeighborsClassifier(),
+    KNeighborsClassifier(weights=weighting),
     x_train,
     y_train,
     x_test=x_test,
@@ -62,15 +63,14 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     cv=5,
     param_name='N Neighbors',
     measure_type='mean_test_score',
-    output_location='census_output/knn_n_neighbors_learning_curve.png'
+    output_location='census_output/knn_%s_n_neighbors_learning_curve.png' % weighting
 )
 
 # Find the best model via GridSearchCV
 grid_search = GridSearchCV(
-    estimator=KNeighborsClassifier(),
+    estimator=KNeighborsClassifier(weights=weighting),
     param_grid={
         'n_neighbors': [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-        'weights': ['uniform', 'distance'],
     },
     cv=5
 )
@@ -95,7 +95,7 @@ helpers.plot_learning_curve_vs_train_size(
     df,
     feature_cols,
     'income_num',
-    output_location='census_output/knn_best_model_num_samples_learning_curve.png',
+    output_location='census_output/knn_%s_best_model_num_samples_learning_curve.png' % weighting,
 )
 
 # Predict income with the trained best model
@@ -106,7 +106,7 @@ helpers.produce_model_performance_summary(
     x_test,
     y_test,
     y_pred,
-    output_location='census_output/KNN_summary.txt',
+    output_location='census_output/KNN_%s_summary.txt' % weighting,
     cv=kfold,
     scoring='accuracy'
 )
