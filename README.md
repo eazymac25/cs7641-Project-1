@@ -69,7 +69,7 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
     conda activate kmacneney3-solution
     conda install --file requirements.txt
     ```
-    Or if you don't care about using an virtual environment
+    Or if you don't care about using a virtual environment
     ```bash
     pip install -r requirements.txt
     # or with conda

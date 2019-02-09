@@ -44,7 +44,7 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
     - please download the anaconda appropriate for your OS.
     - **Version**: Python 3.7.1
 
-2. Install graphviz (Mac or Linux)
+2. Install graphviz (Mac or Linux only)
 
     ```bash
     # Linux
@@ -59,8 +59,8 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
     - `git clone https://github.com/eazymac25/cs7641-Project-1.git`
 
 4. Move into directory
-
-    - `cd cs764l-Project-1`
+    - If downloaded the zip from drive: `unzip kmacneney3-project1-soluition.zip && cd cs7641-Project-1`
+    - If cloned from git: `cd cs764l-Project-1`
 
 5. Install Requirements (make sure you did step 4)
 
@@ -69,11 +69,23 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
     conda activate kmacneney3-solution
     conda install --file requirements.txt
     ```
-    Or if you don't care about using an virtual environment
+    Or if you don't care about using a virtual environment
     ```bash
     pip install -r requirements.txt
     # or with conda
     conda install --file requirements.txt
     ```
 
-### Running Experiments
+## Running Experiments
+
+```bash
+python run.py [census|wine] [tree|nn|boost|svm|knn]
+```
+### Args:
+1. Dataset either census or wine
+2. Model
+    - tree for Decision Tree
+    - nn for Neural Network
+    - boost for Boosted Decision Tree
+    - SVM for Support Vector Machine
+    - KNN for K-Nearest Neighbors
