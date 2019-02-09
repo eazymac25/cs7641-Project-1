@@ -1,4 +1,4 @@
-# cs7641-Project-1
+# CS7641-Project-1
 Project 1
 
 Repository: https://github.com/eazymac25/cs7641-Project-1
@@ -33,10 +33,7 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
         |-- data_loader.py (data pipeline to run preprocessing)
 ```
 
-
 ## Installation
-
-NOTE: The installation relies on Anaconda.
 
 ### Prerequisites
  - [Anaconda](https://www.anaconda.com/)
@@ -45,6 +42,23 @@ NOTE: The installation relies on Anaconda.
 
 ### Directions
 
+1. Install graphviz (Mac or Linux)
+
+```bash
+# Linux
+sudo apt-get install graphviz
+# Mac 
+sudo brew install graphviz
+```
+
+2. Download project
+
+    - [Google Drive]()
+    - `git clone https://github.com/eazymac25/cs7641-Project-1.git`
+
+3. Move into directory
+
+    - `cd cs764l-Project-1`
 ```bash
 # make sure to install graphviz
 sudo apt-get install graphviz
