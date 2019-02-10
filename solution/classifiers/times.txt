@@ -603,3 +603,17 @@ Originating Classifier: wine_neural_network.py
 Originating Classifier: wine_neural_network.py
 	Originating method: plot_learning_curve_vs_param_train_and_test took 19.76508237 seconds
 WINE_NN FIT TIME: 0.6923701819999977
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 3.3151092780000004 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 3.0997497459999988 seconds
+WINE_BOOST FIT TIME: 0.08537450499999899
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 1.3891654640000004 seconds
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_train_size took 119.26703735400001 seconds
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 1.4040930949999932 seconds
+Originating Classifier: wine_svm.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 0.4254181619999997 seconds
+WINE_SVM FIT TIME: 0.011322586000005685

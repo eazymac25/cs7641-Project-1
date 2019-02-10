@@ -7,6 +7,10 @@ Author Email: kyle.macneney@gmail.com
 
 Repository: https://github.com/eazymac25/cs7641-Project-1
 
+*Please contact for access to the repository* 
+
+**NOTE: Written in markdown**
+
 ## Data Sets
 
 - [US Census Data](https://www.kaggle.com/uciml/adult-census-income)
@@ -92,3 +96,12 @@ python run.py [census|wine] [tree|nn|boost|svm|knn]
     - boost for Boosted Decision Tree
     - SVM for Support Vector Machine
     - KNN for K-Nearest Neighbors
+    
+### Examples:
+
+```bash
+python run.py census tree # Census - Decision Tree
+python run.py census nn # Census - Neural Network
+python run.py wine knn # Wine - K nearest neighbors
+# And so on...
+```
