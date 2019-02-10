@@ -42,7 +42,7 @@ Repository: https://github.com/eazymac25/cs7641-Project-1
 |-- README.md (markdown readme)
 |-- README.txt (text readme)
 |-- requirements.txt
-|-- run.py (python command line that which allows running each model)
+|-- run.py (python command line which allows running each model)
 ```
 
 ## Installation
