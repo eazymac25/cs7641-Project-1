@@ -617,3 +617,12 @@ Originating Classifier: wine_svm.py
 Originating Classifier: wine_svm.py
 	Originating method: plot_learning_curve_vs_param_train_and_test took 0.4254181619999997 seconds
 WINE_SVM FIT TIME: 0.011322586000005685
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_train_size took 54.015327845 seconds
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 110.52765110600001 seconds
+CENSUS_KNN FIT TIME: 0.2973261109999896
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_train_size took 71.15220922099999 seconds
+Originating Classifier: census_knn.py
+	Originating method: plot_learning_curve_vs_train_size took 70.79497603300001 seconds
