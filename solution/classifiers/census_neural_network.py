@@ -31,23 +31,23 @@ feature_cols = ['age_num', 'education-num', 'marital-status_Single',
                 'capital-loss', 'sex_Male', 'from_united_states']
 
 kfold = KFold(n_splits=5)
-cls = MLPClassifier(
-    solver='sgd',
-    alpha=.001,
-    hidden_layer_sizes=(100,),
-    random_state=0,
-    activation='logistic',
-    max_iter=2000)
-
-# Plot the learning curve vs train size.
-# Helps determine the train vs test split split ratio
-helpers.plot_learning_curve_vs_train_size(
-    cls,
-    df,
-    feature_cols,
-    'income_num',
-    output_location='census_output/neural_net_num_samples_learning_curve.png'
-)
+# cls = MLPClassifier(
+#     solver='sgd',
+#     alpha=.001,
+#     hidden_layer_sizes=(100,),
+#     random_state=0,
+#     activation='logistic',
+#     max_iter=2000)
+#
+# # Plot the learning curve vs train size.
+# # Helps determine the train vs test split split ratio
+# helpers.plot_learning_curve_vs_train_size(
+#     cls,
+#     df,
+#     feature_cols,
+#     'income_num',
+#     output_location='census_output/neural_net_num_samples_learning_curve.png'
+# )
 
 x_train, x_test, y_train, y_test = train_test_split(
     df[feature_cols],
@@ -61,7 +61,7 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     MLPClassifier(
         solver='sgd',
         alpha=1e-3,
-        hidden_layer_sizes=(100,),
+        hidden_layer_sizes=(10, 5,),
         random_state=0,
         activation='logistic'),
     x_train,
@@ -69,44 +69,60 @@ helpers.plot_learning_curve_vs_param_train_and_test(
     x_test=x_test,
     y_test=y_test,
     param='max_iter',
-    param_values=list(range(100, 1100, 100)),
+    param_values=list(range(100, 600, 100)),
     param_name='Max Iterations',
-    output_location='census_output/nn_max_iter_learning_curve.png'
+    output_location='census_output/nn_layer_10_5_learning_curve.png'
 )
 
-# Find the best model via GridSearchCV
-grid_search = GridSearchCV(
-    estimator=MLPClassifier(solver='sgd', random_state=0, activation='logistic', max_iter=1000),
-    param_grid={
-        'alpha': [1e-5, 1e-4, 1e-3],
-        'hidden_layer_sizes': [(100,), (20, 5)]
-    },
-    cv=5
-)
-
-grid_search.fit(x_train, y_train)
-
-print(grid_search.best_score_)
-print(grid_search.best_params_)
-
-# train the best model
-best_model = grid_search.best_estimator_
-# Time fitting best model
-start = timeit.default_timer()
-best_model.fit(x_train, y_train)
-end = timeit.default_timer()
-print('Time to fit:', end-start)
-helpers.log_fit_time('CENSUS_NN', end-start)
-
-# Predict income with the trained best model
-y_pred = best_model.predict(x_test)
-
-helpers.produce_model_performance_summary(
-    best_model,
-    x_test,
-    y_test,
-    y_pred,
-    output_location='census_output/neural_net_summary.txt',
-    cv=kfold,
-    scoring='accuracy'
-)
+# # Find the best model via GridSearchCV
+# grid_search = GridSearchCV(
+#     estimator=MLPClassifier(solver='sgd', random_state=0, activation='logistic', max_iter=1000),
+#     param_grid={
+#         'alpha': [1e-5, 1e-4, 1e-3],
+#         'hidden_layer_sizes': [(100,), (20, 5)]
+#     },
+#     cv=5
+# )
+#
+# grid_search.fit(x_train, y_train)
+#
+# print(grid_search.best_score_)
+# print(grid_search.best_params_)
+#
+# # train the best model
+# best_model = grid_search.best_estimator_
+# # Time fitting best model
+# start = timeit.default_timer()
+# best_model.fit(x_train, y_train)
+# end = timeit.default_timer()
+# print('Time to fit:', end-start)
+# helpers.log_fit_time('CENSUS_NN', end-start)
+#
+# # Predict income with the trained best model
+# y_pred = best_model.predict(x_test)
+#
+# helpers.produce_model_performance_summary(
+#     best_model,
+#     x_test,
+#     y_test,
+#     y_pred,
+#     output_location='census_output/neural_net_summary.txt',
+#     cv=kfold,
+#     scoring='accuracy'
+# )
+#
+# from sklearn.metrics import roc_curve, auc
+# import matplotlib.pyplot as plt
+#
+# fpr, tpr, threshold = roc_curve(y_test.values, y_pred)
+# plt.figure()
+#
+# plt.plot(fpr, tpr, label='ROC', color='darkorange')
+# plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
+# plt.xlim([0.0, 1.0])
+# plt.ylim([0.0, 1.05])
+# plt.xlabel('False Positive Rate')
+# plt.ylabel('True Positive Rate')
+# plt.title('Neural Network ROC Curve')
+# plt.legend(loc='best')
+# plt.savefig('roc-curve.png')

@@ -626,3 +626,42 @@ Originating Classifier: census_knn.py
 	Originating method: plot_learning_curve_vs_train_size took 71.15220922099999 seconds
 Originating Classifier: census_knn.py
 	Originating method: plot_learning_curve_vs_train_size took 70.79497603300001 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 2.989948891 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 3.061960695 seconds
+WINE_BOOST FIT TIME: 0.08701394199999868
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 2.9483435690000004 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 3.0289051869999994 seconds
+WINE_BOOST FIT TIME: 0.08568246099999932
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 3.0345152729999993 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 3.102993146000001 seconds
+WINE_BOOST FIT TIME: 0.08793724799999936
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 3.021242268 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 3.0884606239999997 seconds
+WINE_BOOST FIT TIME: 0.09225993999999993
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 3.022719670999999 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 3.045047661 seconds
+WINE_BOOST FIT TIME: 0.08450799199999892
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_train_size took 2.964676053 seconds
+Originating Classifier: wine_boosting.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 3.0598091610000004 seconds
+WINE_BOOST FIT TIME: 0.08508797200000018
+Originating Classifier: census_neural_network.py
+	Originating method: plot_learning_curve_vs_train_size took 495.381578903 seconds
+Originating Classifier: census_neural_network.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 662.459017895 seconds
+CENSUS_NN FIT TIME: 11.345582530000001
+Originating Classifier: census_neural_network.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 17.196667057 seconds
+Originating Classifier: census_neural_network.py
+	Originating method: plot_learning_curve_vs_param_train_and_test took 76.561792304 seconds
